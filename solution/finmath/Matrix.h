@@ -1,6 +1,4 @@
-
-#ifndef MATRIX_DECLRARED
-#define MATRIX_DECLRARED
+ #pragma once
 
 #include <vector>
 #include <cmath>
@@ -93,5 +91,3 @@ namespace Sample {
 	};
 
 }
-
-#endif
