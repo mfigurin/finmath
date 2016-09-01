@@ -3,11 +3,11 @@
 
 namespace Sample {
 
-	class DetermenationDayIterator : public TimePeriodIterator {
+	class DeterminationDayIterator : public TimePeriodIterator {
 
 	public:
-		DetermenationDayIterator(CalendarMode mode, TimePeriodItem* items);
-		~DetermenationDayIterator();
+		DeterminationDayIterator(CalendarMode mode, TimePeriodItem* items);
+		~DeterminationDayIterator();
 
 		bool  hasNext();
 		void  next();

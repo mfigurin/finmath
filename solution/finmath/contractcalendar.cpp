@@ -3,7 +3,7 @@
 #include "dtutils.h"
 #include <exception>
 #include "contractcalendar.h"
-#include "determenationdayiterator.h"
+#include "determinationdayiterator.h"
 
 
 namespace Sample {
@@ -15,8 +15,8 @@ namespace Sample {
 			case TimeGranularity::HOUR:
 			case TimeGranularity::MINUTE:
 				throw "TimePeriodIterator: requested granulatity is not currently supported";
-			case TimeGranularity::KNOCK_IN_DETERMITION_DAY:
-				return new DetermenationDayIterator(mode, list);
+			case TimeGranularity::KNOCK_IN_DETERMINATION_DAY:
+				return new DeterminationDayIterator(mode, list);
 				break;
 			default:
 				throw "DefaultTimePeriodIteratorProvider: unknown granularity";

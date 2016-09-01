@@ -38,7 +38,7 @@ enum TimeGranularity {
 	MINUTE = 1,
 	HOUR = 2,
 	DAY = 3,
-	KNOCK_IN_DETERMITION_DAY = 4
+	KNOCK_IN_DETERMINATION_DAY = 4
 };
 
 enum CalendarMode {
