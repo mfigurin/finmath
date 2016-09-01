@@ -19,7 +19,7 @@ NormalDistribution::NormalDistribution(double mean, double stdev)
 }
 
 NormalDistribution::NormalDistribution() {
-	//NormalDistribution(0.0, 1.0);
+	NormalDistribution(0.0, 1.0);
 }
 
 
