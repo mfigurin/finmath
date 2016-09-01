@@ -3,7 +3,7 @@
 
 namespace Sample {
 
-	class DetermenationDayIterator : 	public TimePeriodIterator {
+	class DetermenationDayIterator : public TimePeriodIterator {
 
 	public:
 		DetermenationDayIterator(CalendarMode mode, TimePeriodItem* items);

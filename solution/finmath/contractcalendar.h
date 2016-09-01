@@ -65,7 +65,7 @@ class TimePeriodIteratorProvider {
 		virtual TimePeriodIterator* getTimePeriodIterator(TimeGranularity granularity, CalendarMode mode, int granularityValue, TimePeriodItem* list) = 0 ; 
 };
 
-class DefaultTimePeriodIteratorProvider : public TimePeriodIteratorProvider  {
+class DefaultTimePeriodIteratorsProvider : public TimePeriodIteratorProvider  {
 	public:
 		 TimePeriodIterator* getTimePeriodIterator(TimeGranularity granularity, CalendarMode mode, int granularityValue, TimePeriodItem* list) ; 
 };
@@ -74,11 +74,7 @@ class ContractCalendar
 {
 	public:
 		ContractCalendar(int from_year, int from_month, int from_day, int to_year, int to_month, int to_day);
-
 		void setTimePeriodIteratorProvider(TimePeriodIteratorProvider* provider);
-
-		TimePeriodIteratorProvider* iterator_provider_;
-
 		TimePeriodIterator* getTimePeriodIterator(TimeGranularity granularity, CalendarMode mode, int value);
 		virtual bool isHoliday(int year, int month, int day);
 		virtual bool isTraidingDay(int year, int month, int day);

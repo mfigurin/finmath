@@ -8,7 +8,7 @@
 
 namespace Sample {
 
-	TimePeriodIterator* DefaultTimePeriodIteratorProvider::getTimePeriodIterator(TimeGranularity granualarity, CalendarMode mode, int value, TimePeriodItem* list)  {
+	TimePeriodIterator* DefaultTimePeriodIteratorsProvider::getTimePeriodIterator(TimeGranularity granualarity, CalendarMode mode, int value, TimePeriodItem* list)  {
 
 		switch ( granualarity ) {
 			case TimeGranularity::DAY:
@@ -43,7 +43,8 @@ namespace Sample {
 
 		//Now: lets create a basic list of trading days. It will be used by iterators later... 	
 		initTradingDaysList();
-		time_period_iterator_provider_ = new DefaultTimePeriodIteratorProvider();
+
+		setTimePeriodIteratorProvider(new DefaultTimePeriodIteratorsProvider());
 
 	}
 
@@ -95,7 +96,7 @@ namespace Sample {
 	}
 
 	void ContractCalendar::setTimePeriodIteratorProvider(TimePeriodIteratorProvider* provider) {
-		iterator_provider_ = provider;
+		time_period_iterator_provider_ = provider;
 	}
 
 } //namespace
