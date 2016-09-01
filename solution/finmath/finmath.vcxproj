@@ -84,6 +84,7 @@
     <ClInclude Include="determinationdayiterator.h" />
     <ClInclude Include="dtutils.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Matrix2.h" />
     <ClInclude Include="MultidimensionalBrownianMotion.h" />
     <ClInclude Include="randomgenerator.h" />
     <ClInclude Include="stdafx.h" />
