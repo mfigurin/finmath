@@ -1,9 +1,8 @@
 
-#ifndef MATRIX_DECLRARED
-#define MATRIX_DECLRARED
+#pragma once
 
 #include <vector>
-#include <cmath>
+#include <exception>
 
 namespace Sample {
 
@@ -18,7 +17,7 @@ namespace Sample {
 
 			Matrix( int rows, int cols, int fill = 0 ) {
 				if( rows < 1 || cols < 1 ) {
-					throw exception( "Invalid boundaries" );
+					throw std::exception( "Invalid boundaries" );
 				}
 				_matrix = std::vector<std::vector<_T>>( rows, std::vector<_T>(cols, fill));
 			}
@@ -69,29 +68,28 @@ namespace Sample {
 			static void compute_llt( Matrix<_T>& llt, const Matrix<_T>& a ) 
 			{
 				for( int i = 0; i < llt.rows(); i++)
-					for(  int j = 0; j <= i; j++) {
+					for( int j = 0; j <= i; j++) {
 						double sum = 0.;
 						for( int k = 0; k < j; k++ ) {
-							sum += i == j ?  llt(j,k) * llt(j,k) : llt(i,k) * llt(j,k);
+							sum += llt(i,k) * llt(j,k); // alg: i == j ?  llt(j,k) * llt(j,k) : llt(i,k) * llt(j,k);
 						}
+						_T v = a(i,j) - sum;
 						if( i == j ) {
-							_T v = a(j,j) - sum;
 							if( v < 0. ) {
-								throw exception( "The matrix is not positive" );
+								throw std::exception( "The matrix is not positive" );
 							}
-							llt(j,j) = sqrt( v ); 
+							llt(j,j) = sqrt( v ); // alg: sqrt( a(j,j) - sum );
 						}else{
-							llt(i,j) = (1./llt(j,j)) * ( a(i,j) - sum );
+							llt(i,j) = v / llt(j,j); // alg: (1./llt(j,j)) * (a(i,j) - sum);
 						}
 				 }
 				//transpose to upper triangular form
 				for (int i = 0; i < llt.rows(); i++) {
 					for (int j = 0; j < i; j++)
-						swap( llt(j,i), llt(i,j) );
+						std::swap( llt(j,i), llt(i,j) );
 				}
 			}
 	};
 
 }
 
-#endif
