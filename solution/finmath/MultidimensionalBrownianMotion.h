@@ -6,7 +6,6 @@
 #include <vector>
 #include "Matrix.h"
 #include "randomgenerator.h"
-
 using namespace std;
 
 namespace Sample {
