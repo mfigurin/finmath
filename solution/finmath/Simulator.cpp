@@ -3,24 +3,43 @@
 #include "Simulator.h"
 
 CorrelationGenerator::CorrelationGenerator(Sample::CorrelationMatrix<double> matrix) : matrix(matrix){};
+CorrelationGenerator::~CorrelationGenerator(void){};
 
 void CorrelationGenerator::next_sample() {}
 double CorrelationGenerator::wiener(int index) { 
 	return 0.0;
 }
 
-GBM::GBM(double initial_price, double drift, double volatility) : S0(initial_price), sigma(sigma), nu(drift-sigma*sigma/2) {}
-GBM::~GBM(void) {}
+Share::Share(std::string name, std::string currency, double initial_price, double drift, double volatility) :
+	name(name), 
+	currency(currency), 
+	initial_price(initial_price),
+	sigma(volatility), 
+	nu(drift-sigma*sigma/2)
+{}
 
-double GBM::price_at(double time, double wiener_process){
-	return S0 * exp(nu * time + sigma * wiener_process);
+Share::Share( const Share& share ) {
+	name = share.name;
+	currency = share.currency;
+	initial_price = share.initial_price;
+	sigma = share.sigma;
+	nu = share.nu;
 }
 
-Simulator::Simulator(Contract contract, int sample_count, double knock_in_percentage, CorrelationGenerator correlation_generator) : 
-	contract(contract), 
-	sample_count(sample_count), 
+Share::~Share(void) {}
+
+void Share::update_current_price(double time, double wiener_process){
+	current_price = initial_price * exp(nu * time + sigma * wiener_process);
+}
+
+Simulator::Simulator(tm trade_date, tm final_date, double notional_amount, std::vector<Share> &basket, double knock_in_percentage, CorrelationGenerator correlation_generator) : 
+	trade_date(trade_date),
+	final_date(final_date),
+	notional_amount(notional_amount),
+	basket(basket), 
 	knock_in_percentage(knock_in_percentage),
 	correlation_generator(correlation_generator){}
+
 Simulator::~Simulator(void) {}
 
 inline double Simulator::short_interest_rate(void)
@@ -34,10 +53,10 @@ double Simulator::currency_rate(std::string currency1, std::string currency2, do
 	throw std::exception( "Unsupported currency" );
 }
 
-double Simulator::least_performing_share(std::vector<double> share_prices, double time) {
-	std::vector<double> performance_level(share_prices.size());
-	for (unsigned int i = 0; i < share_prices.size(); i++)
-		performance_level[i] = share_prices[i] * currency_rate("usd","hkd", time) / contract.basket[i].initial_price * currency_rate("usd","hkd", 0);
+double Simulator::least_performing_share(std::vector<Share> &basket) {
+	std::vector<double> performance_level(basket.size());
+	for (unsigned int i = 0; i < basket.size(); i++)
+		performance_level[i] = basket[i].current_price / basket[i].initial_price;
 	return *std::min_element(performance_level.begin(), performance_level.end());
 }
 
@@ -49,23 +68,14 @@ double Simulator::determine_equity_amount(double lps, bool knocked_in){
 		performance = lps - 1.0;
 	else
 		performance = 1.0 - lps;
-	return contract.notional_amount * lps;
+	return notional_amount * lps;
 }
 
-double Simulator::equity_amount_sample(void){
+double Simulator::equity_amount_sample(){
 
 	double period = 3;
 	double step = 1/365;
 
-	int basket_size = contract.basket.size();
-
-	std::vector<GBM> gbm;
-	for (int i = 0; i < basket_size; i++){
-		gbm[i] = GBM(contract.basket[i].initial_price, 0.3, 0.2);
-	}
-
-	std::vector<double> wiener(basket_size);
-	std::vector<double> price(basket_size);
 	bool knocked_in = false;
 	double lps;
 	for (double time = step; time <= period; time+=step){
@@ -73,14 +83,13 @@ double Simulator::equity_amount_sample(void){
 		if (knocked_in)
 			time = period;
 		correlation_generator.next_sample();
-		for (int j = 0; j < basket_size; j++) {
-			price[j] = gbm[j].price_at(time, correlation_generator.wiener(j));
+		for (unsigned int j = 0; j < basket.size(); j++) {
+			basket[j].update_current_price(time, correlation_generator.wiener(j));
 		}
-		lps = least_performing_share (price, step);		
+		lps = least_performing_share (basket);		
 		knocked_in |= lps < knock_in_percentage;
 	}
-
-	return determine_equity_amount(lps, knocked_in);
+	return determine_equity_amount(lps, knocked_in) / currency_rate("USD", "HKD", period);
 }
 
 double Simulator::equity_amount(void){

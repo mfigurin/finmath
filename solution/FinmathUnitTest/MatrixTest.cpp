@@ -14,8 +14,8 @@ namespace FinmathUnitTest
 		TEST_METHOD(MatrixTest1)
 		{
 
-			Sample::Matrix<double> matrix1(1,3,1.0);
-			Sample::Matrix<double> matrix2(3,3,1.0);
+			Sample::Matrix<double> matrix1(1,3,1);
+			Sample::Matrix<double> matrix2(3,3,1);
 			Sample::Matrix<double> result = matrix1*matrix2;
 
 			Assert::AreEqual( result.rows(), 1);

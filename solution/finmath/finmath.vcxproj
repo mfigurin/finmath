@@ -79,7 +79,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="contract.h" />
     <ClInclude Include="contractcalendar.h" />
     <ClInclude Include="determinationdayiterator.h" />
     <ClInclude Include="dtutils.h" />
@@ -92,7 +91,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="contract.cpp" />
     <ClCompile Include="contractcalendar.cpp" />
     <ClCompile Include="determinationdayiterator.cpp" />
     <ClCompile Include="finmath.cpp" />

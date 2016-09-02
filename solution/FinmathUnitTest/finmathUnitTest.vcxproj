@@ -89,6 +89,7 @@
     <ClCompile Include="DtutilsTest.cpp" />
     <ClCompile Include="Matrix2Test.cpp" />
     <ClCompile Include="MatrixTest.cpp" />
+    <ClCompile Include="SimulatorTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

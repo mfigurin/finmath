@@ -123,7 +123,7 @@ namespace Sample {
 	class CorrelationMatrix : public Matrix2<_T> {
 	public:
 		CorrelationMatrix( unsigned int size, double fill = 0) : Matrix2<_T>(size,size,fill) {
-			for (int i = 0; i < size; i++)
+			for (unsigned int i = 0; i < size; i++)
 				(*this)(i,i) = 1.0;
 		}
 		
