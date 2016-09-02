@@ -63,9 +63,10 @@ void Share::update_current_price(double time, double wiener_process){
 	current_price = initial_price * exp(nu * time + sigma * wiener_process);
 }
 
-Simulator::Simulator(Sample::ContractCalendar& calendar, double notional_amount, std::vector<Share> &basket, double knock_in_percentage, CorrelationGenerator& correlation_generator) : 
+Simulator::Simulator(Sample::ContractCalendar& calendar, double notional_amount, double short_interest_rate, std::vector<Share> &basket, double knock_in_percentage, CorrelationGenerator& correlation_generator) : 
 	calendar(calendar),
 	notional_amount(notional_amount),
+	short_interest_rate(short_interest_rate),
 	basket(basket), 
 	knock_in_percentage(knock_in_percentage),
 	correlation_generator(correlation_generator),
@@ -73,11 +74,6 @@ Simulator::Simulator(Sample::ContractCalendar& calendar, double notional_amount,
 {}
 
 Simulator::~Simulator(void) {}
-
-inline double Simulator::short_interest_rate(void)
-{
-	return 0.03;
-}
 
 double Simulator::currency_rate(std::string currency1, std::string currency2, double time){
 	if ((currency1.compare("USD")==0) & (currency2.compare("HKD")==0))
@@ -149,5 +145,5 @@ double Simulator::number_of_periods(void){
 }
 
 double Simulator::present_value(void){
-	return equity_amount()  / pow (( 1 + short_interest_rate()), number_of_periods());
+	return equity_amount()  / pow (( 1 + short_interest_rate), number_of_periods());
 }

@@ -30,7 +30,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	Sample::ContractCalendar calendar(Sample::CalendarMode::CALENDAR_DAYS, 2016, 1, 25, 2019, 1, 25);
 	CorrelationGenerator correlationGenerator(matrix, Sample::NormalDistribution());
 
-	Simulator sim(calendar, 400.00, basket, 0.72, correlationGenerator);
+	Simulator sim(calendar, 400.00, 0.03, basket, 0.72, correlationGenerator);
 	double present_value = sim.present_value();
 	std::cout << "Present value: " << present_value << std::endl;
 }

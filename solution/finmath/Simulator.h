@@ -77,11 +77,12 @@ class Simulator
 	// debug info
 	int steps_done;
 	double simulated_equity_amount;
+	double short_interest_rate;
 
 public:
-	Simulator(Sample::ContractCalendar& calendar, double notional_amount, std::vector<Share>& basket, double knock_in_percentage, CorrelationGenerator& correlation_generator);
+	Simulator(Sample::ContractCalendar& calendar, double notional_amount, double short_interest_rate, std::vector<Share>& basket, double knock_in_percentage, CorrelationGenerator& correlation_generator);
 	~Simulator(void);
-	double short_interest_rate(void);
+
 	double currency_rate(std::string currency1, std::string currency2, double time);
 	double least_performing_share(std::vector<Share>& basket);
 	double determine_equity_amount(double price, bool knocked_in);

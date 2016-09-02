@@ -39,7 +39,7 @@ namespace FinmathUnitTest
 			Sample::ContractCalendar calendar(Sample::CalendarMode::CALENDAR_DAYS, 2016, 1, 25, 2019, 1, 25);
 			CorrelationGenerator correlation_generator(matrix, Sample::NormalDistribution());
 
-			Simulator sim(calendar, 400.00, basket, 0.72, correlation_generator);
+			Simulator sim(calendar, 400.00, 0.03, basket, 0.72, correlation_generator);
 			double present_value = sim.present_value();
 			std::cout << "Present value: " << present_value;
 		}
