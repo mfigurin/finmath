@@ -34,10 +34,10 @@ namespace Sample {
 		calendar_days_number_ = 0;
 		traiding_days_number_ = 0;
 		bool is_traiding_days  = (CalendarMode::CALENDAR_DAYS == mode) ? false : true; 
-		while (current < endtime) {
+		while (current <= endtime) {
 			calendar_days_number_++;
 			_localtime64_s(&next_day, &current);
-			if (isTraidingDay(next_day.tm_year, next_day.tm_mon, next_day.tm_mday)) {
+			if (isTraidingDay(next_day.tm_year + 1900, next_day.tm_mon + 1, next_day.tm_mday)) {
 				traiding_days_number_++;
 				double delta = (is_traiding_days)? traiding_days_number_/traiding_year_days : calendar_days_number_/calendar_year_days;
 				TimePeriodItem* current_item = new TimePeriodItem(calendar_days_number_, traiding_days_number_, next_day, delta);
@@ -46,6 +46,9 @@ namespace Sample {
 			}
 			current += DAY_INCREMENT;
 		};
+
+		contractDeltaT = is_traiding_days ? traiding_days_number_/traiding_year_days : calendar_days_number_/calendar_year_days;
+
 	}
 
 	//TODO check locale and read from file, db, etc...
@@ -66,6 +69,14 @@ namespace Sample {
 
 	CalendarItems ContractCalendar::getCalendarItems() {
 		return list;
+	}
+
+	double ContractCalendar::getContractDeltaT() {
+		return contractDeltaT;
+	}
+	
+	CalendarMode ContractCalendar::getCalendarMode() {
+		return mode_;
 	}
 
 
