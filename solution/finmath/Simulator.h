@@ -9,7 +9,7 @@
 class CorrelationGenerator {
 	Sample::CorrelationMatrix<double> matrix;
 public:
-	CorrelationGenerator(Sample::CorrelationMatrix<double> matrix);
+	CorrelationGenerator(Sample::CorrelationMatrix<double>& matrix);
 	~CorrelationGenerator(void);
 	void next_sample();
 	double wiener(int index);

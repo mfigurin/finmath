@@ -22,9 +22,8 @@ namespace FinmathUnitTest
 			final_date.tm_year = 2019;
 			final_date.tm_mon = 1;
 			final_date.tm_mday = 25;
-	
-			std::vector<Share> basket;
 
+			std::vector<Share> basket(3, Share("001_HK", "HKD", 17.4985, 0.03, 0.2));
 			basket[0] = Share("001_HK", "HKD", 17.4985, 0.03, 0.2);
 			basket[1] = Share("002_HK", "HKD", 17.1770, 0.03, 0.2);
 			basket[2] = Share("003_HK", "HKD", 19.2590, 0.03, 0.2);

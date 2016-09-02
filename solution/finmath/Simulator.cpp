@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "Simulator.h"
 
-CorrelationGenerator::CorrelationGenerator(Sample::CorrelationMatrix<double> matrix) : matrix(matrix){};
+CorrelationGenerator::CorrelationGenerator(Sample::CorrelationMatrix<double>& matrix) : matrix(matrix){};
 CorrelationGenerator::~CorrelationGenerator(void){};
 
 void CorrelationGenerator::next_sample() {}
