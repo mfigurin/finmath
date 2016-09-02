@@ -39,9 +39,6 @@
     <ClInclude Include="contractcalendar.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="determinationdayiterator.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Matrix2.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -63,9 +60,6 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="contractcalendar.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="determinationdayiterator.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Simulator.cpp">

@@ -80,7 +80,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="contractcalendar.h" />
-    <ClInclude Include="determinationdayiterator.h" />
     <ClInclude Include="dtutils.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Matrix2.h" />
@@ -92,7 +91,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="contractcalendar.cpp" />
-    <ClCompile Include="determinationdayiterator.cpp" />
     <ClCompile Include="finmath.cpp" />
     <ClCompile Include="MultidimensionalBrownianMotion.cpp" />
     <ClCompile Include="randomgenerator.cpp" />
