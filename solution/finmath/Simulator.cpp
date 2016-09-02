@@ -7,7 +7,8 @@ CorrelationGenerator::CorrelationGenerator(Sample::CorrelationMatrix<double>& ma
 	correlation_matrix(matrix), 
 	generator(generator),
 	distribution(Sample::Matrix2<double>( 1, matrix.rows() )) {
-	next_sample();
+		correlation_matrix.cholesky_decomposition();
+		next_sample();
 };
 
 void CorrelationGenerator::next_sample() {

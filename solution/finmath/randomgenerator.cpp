@@ -14,8 +14,8 @@ NormalDistribution::NormalDistribution(double mean, double stdev)
 	std::default_random_engine generator;
 	//std::mt19937 generator(rd());
 	std::normal_distribution<double> distribution(mean, stdev);
-	generator_ = generator;
-	distribution_ = distribution;
+	_generator = generator;
+	_distribution = distribution;
 }
 
 NormalDistribution::NormalDistribution() {
@@ -23,12 +23,9 @@ NormalDistribution::NormalDistribution() {
 }
 
 
-NormalDistribution::~NormalDistribution()
-{
-}
 
 double NormalDistribution::nextValue() {
-	return distribution_(generator_);
+	return _distribution(_generator);
 }
 
 }

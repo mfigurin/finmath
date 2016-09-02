@@ -16,7 +16,7 @@ namespace Sample {
 
 		public:
 
-			Matrix2( int rows, int cols, double fill = 0 ){
+			Matrix2( int rows, int cols, _T fill = 0 ){
 				if( rows < 1 || cols < 1 ) {
 					throw std::exception( "Invalid boundaries" );
 				}
@@ -50,7 +50,7 @@ namespace Sample {
 
 			Matrix2<_T> transpose(void) 
 			{
-				Matrix2<_T> transposed( cols, rows );
+				Matrix2<_T> transposed( cols(), rows() );
 				for (int i = 0; i < rows(); i++) {
 					for (int j = 0; j < cols(); j++)
 						transposed(j,i) = (*this)(i,j);
@@ -64,11 +64,11 @@ namespace Sample {
 
 				for( int i = 0; i < rows(); i++){
 					for( int j = 0; j <= i; j++) {
-						double sum = 0.;
+						_T sum = 0.;
 						for( int k = 0; k < j; k++ ) {
 							sum += l(i,k) * l(j,k); // alg: i == j ?  l(j,k) * l(j,k) : l(i,k) * l(j,k);
 						}
-						_T v = (*this->)(i,j) - sum;
+						_T v = (*this)(i,j) - sum;
 						if( i == j ) {
 							if( v < 0. ) {
 								throw std::exception( "The matrix is not positive" );
@@ -140,7 +140,7 @@ namespace Sample {
 	template<typename _T = double> 
 	class CorrelationMatrix : public Matrix2<_T> {
 	public:
-		CorrelationMatrix( unsigned int size, double fill = 0) : Matrix2<_T>(size,size,fill) {
+		CorrelationMatrix( unsigned int size, _T fill = 0) : Matrix2<_T>(size,size,fill) {
 			for (unsigned int i = 0; i < size; i++)
 				(*this)(i,i) = 1.0;
 		}
