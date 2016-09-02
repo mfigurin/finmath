@@ -80,11 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="contractcalendar.h" />
-    <ClInclude Include="dtutils.h" />
     <ClInclude Include="Matrix.h" />
-    <ClInclude Include="Matrix2.h" />
-    <ClInclude Include="MultidimensionalBrownianMotion.h" />
-    <ClInclude Include="randomgenerator.h" />
     <ClInclude Include="Simulator.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -92,8 +88,7 @@
   <ItemGroup>
     <ClCompile Include="contractcalendar.cpp" />
     <ClCompile Include="finmath.cpp" />
-    <ClCompile Include="MultidimensionalBrownianMotion.cpp" />
-    <ClCompile Include="randomgenerator.cpp" />
+    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Simulator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -60,7 +60,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)finmath\$(Configuration);$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Simulator.obj;contractcalendar.obj;randomgenerator.obj;Stdafx.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Simulator.obj;Matrix.obj;contractcalendar.obj;Stdafx.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -89,14 +89,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DtutilsTest.cpp" />
-    <ClCompile Include="Matrix2Test.cpp" />
     <ClCompile Include="MatrixTest.cpp" />
     <ClCompile Include="SimulatorTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="unittest1.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

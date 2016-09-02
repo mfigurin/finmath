@@ -1,13 +1,33 @@
-
 #include "stdafx.h"
+#include <random>
 #include "Simulator.h"
 
+namespace Sample {
 
-CorrelationGenerator::CorrelationGenerator(Sample::CorrelationMatrix<double>& matrix, Sample::RandomGenerator& generator) : 
+	NormalDistribution::NormalDistribution(double mean, double stdev)
+	{	
+		// See http://www.cplusplus.com/reference/random/normal_distribution/
+		std::default_random_engine generator;
+		//std::mt19937 generator(rd());
+		std::normal_distribution<double> distribution(mean, stdev);
+		_generator = generator;
+		_distribution = distribution;
+	}
+
+	NormalDistribution::NormalDistribution() {
+		NormalDistribution(0.0, 1.0);
+	}
+
+	double NormalDistribution::nextValue() {
+		return _distribution(_generator);
+	}
+}
+
+CorrelationGenerator::CorrelationGenerator(Sample::CorrelationMatrix& matrix, Sample::RandomGenerator& generator) : 
 	correlation_matrix(matrix), 
 	generator(generator),
-	distribution(Sample::Matrix2<double>( matrix.rows(), 1)) {
-	next_sample();
+	distribution(Sample::Matrix( matrix.rows(), 1)) {
+		next_sample();
 };
 
 void CorrelationGenerator::next_sample() {
@@ -20,7 +40,6 @@ void CorrelationGenerator::next_sample() {
 double CorrelationGenerator::wiener(int index) { 
 	return distribution(index);
 }
-
 
 Share::Share(std::string name, std::string currency, double initial_price, double drift, double volatility) :
 	name(name), 
@@ -86,17 +105,20 @@ double Simulator::determine_equity_amount(double lps, bool knocked_in){
 
 double Simulator::equity_amount_sample(){
 
-	Sample::CalendarItems steps = calendar.getCalendarItems();
+	Sample::CalendarItems steps = calendar.get_calendar_items();
 
 	bool knocked_in = false;
+	bool knocked_in_processed = false;
 	double lps;
 	int i = 0;
-	for (std::list<Sample::TimePeriodItem*>::iterator it = steps.begin(); it != steps.end(); ++it, i++){		
+	for (std::list<Sample::TimePeriodItem*>::iterator it = steps.begin(); it != steps.end() && !knocked_in_processed; ++it, i++){		
 		double time = (*it)->deltaT;
 
 		// jump to final date if the knock-in event happened
-		if (knocked_in)
-			time = calendar.getContractDeltaT() ;
+		if (knocked_in){
+			time = calendar.get_contract_deltaT() ;
+			knocked_in_processed = true;
+		}
 		correlation_generator.next_sample();
 		for (unsigned int j = 0; j < basket.size(); j++) {
 			basket[j].update_current_price(time, correlation_generator.wiener(j));
@@ -104,7 +126,7 @@ double Simulator::equity_amount_sample(){
 		lps = least_performing_share (basket);		
 		knocked_in |= lps < knock_in_percentage;
 	}
-	std::cout << i << " steps done" << "\n";
+	steps_done = i;
 	//return determine_equity_amount(lps, knocked_in) / currency_rate("USD", "HKD", period);
 	return determine_equity_amount(lps, knocked_in);
 }
@@ -112,15 +134,18 @@ double Simulator::equity_amount_sample(){
 double Simulator::equity_amount(void){
 	double sum = 0;
 	for ( int i = 0; i < sample_count; i++){
-		std::cout << "iteration: " <<  i << "\n";
-		double amount = equity_amount_sample();
-		sum += amount;
+		simulated_equity_amount = equity_amount_sample();
+		sum += simulated_equity_amount;
+		std::cout << 
+			"iteration:" << std::setw(7) << std::left << i << 
+			"steps:" << std::setw(6) << std::left << steps_done << 
+			"entity amount:" << simulated_equity_amount <<  std::endl;
 	}
 	return sum / sample_count;
 }
 
 double Simulator::number_of_periods(void){
-	return calendar.getContractDeltaT();
+	return calendar.get_contract_deltaT();
 }
 
 double Simulator::present_value(void){

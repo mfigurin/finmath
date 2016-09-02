@@ -9,20 +9,20 @@ namespace Sample {
 
 	//use template only to have implementation code here and avoid accompanied cpp (sbj to change?)
 	template<typename _T = double> 
-	class Matrix2 {
+	class Matrix {
 	
 		protected:
 		std::vector<std::vector<_T>> _matrix;
 
 		public:
 
-			Matrix2( int rows, int cols, _T fill = 0 ){
+			Matrix( int rows, int cols, _T fill = 0 ){
 				if( rows < 1 || cols < 1 ) {
 					throw std::exception( "Invalid boundaries" );
 				}
 				_matrix = std::vector<std::vector<_T>>( rows, std::vector<_T>(cols, fill));
 			}
-			Matrix2( const Matrix2& matrix ) {
+			Matrix( const Matrix& matrix ) {
 				_matrix = matrix._matrix;
 			}
 
@@ -39,8 +39,8 @@ namespace Sample {
 				return _matrix.at(row).at(col);
 			}
 
-			Matrix2<_T> operator* ( const Matrix2<_T>& matrix ) {
-				Matrix2<_T> mult( rows(), matrix.cols() );
+			Matrix<_T> operator* ( const Matrix<_T>& matrix ) {
+				Matrix<_T> mult( rows(), matrix.cols() );
 				for( int i = 0; i < mult.rows(); i++ ) {
 					for( int j  = 0; j < mult.cols(); j++ ) { 
 						for( int k = 0; k < cols(); k++ ) {
@@ -51,9 +51,9 @@ namespace Sample {
 				return mult;
 			}
 
-			Matrix2<_T> transpose(void) 
+			Matrix<_T> transpose(void) 
 			{
-				Matrix2<_T> transposed( cols(), rows() );
+				Matrix<_T> transposed( cols(), rows() );
 				for (int i = 0; i < rows(); i++) {
 					for (int j = 0; j < cols(); j++)
 						transposed(j,i) = (*this)(i,j);
@@ -61,9 +61,9 @@ namespace Sample {
 				return transposed;
 			}
 
-			Matrix2<_T> cholesky_decomposition() 
+			Matrix<_T> cholesky_decomposition() 
 			{
-				Matrix2<_T> l(rows(),cols());
+				Matrix<_T> l(rows(),cols());
 
 				for( int i = 0; i < rows(); i++){
 					for( int j = 0; j <= i; j++) {
@@ -107,9 +107,9 @@ namespace Sample {
 
 	//// row matrix; when multiplied by matrix simulates column matix
 	//template<typename _T = double> 
-	//class Vector : public Matrix2<_T> {
+	//class Vector : public Matrix<_T> {
 	//public:
-	//	Vector( int size, double fill = 0) : Matrix2<_T>(1,size,fill) {
+	//	Vector( int size, double fill = 0) : Matrix<_T>(1,size,fill) {
 	//	}
 	//	
 	//	_T inline operator() ( int index ) const {
@@ -122,28 +122,28 @@ namespace Sample {
 	//		if( row > 0 && col > 0 ) {
 	//			throw std::exception( "Invalid: both indexes above zero." );
 	//		}
-	//		return Matrix2<_T>( 0, row + col ) ;
+	//		return Matrix<_T>( 0, row + col ) ;
 	//	}
 	//	_T inline &operator() ( int row, int col ) {
 	//		if( row > 0 && col > 0 ) {
 	//			throw std::exception( "Invalid: both indexes above zero." );
 	//		}
-	//		return Matrix2<_T>( 0, row + col ) ;
+	//		return Matrix<_T>( 0, row + col ) ;
 	//	}
 
-	//	Vector<_T> operator* ( const Matrix2<_T>& matrix ) {
-	//		return (Vector<_T>)Matrix2<_T>::operator*(matrix);
+	//	Vector<_T> operator* ( const Matrix<_T>& matrix ) {
+	//		return (Vector<_T>)Matrix<_T>::operator*(matrix);
 	//	}
 	//	Vector<_T> operator* ( const Vector<_T>& vector ) {
-	//		return (Vector<_T>)Matrix2<_T>::operator*(matrix);
+	//		return (Vector<_T>)Matrix<_T>::operator*(matrix);
 	//	}
 
 	//};
 
 	template<typename _T = double> 
-	class CorrelationMatrix : public Matrix2<_T> {
+	class CorrelationMatrix : public Matrix<_T> {
 	public:
-		CorrelationMatrix( unsigned int size, _T fill = 0) : Matrix2<_T>(size,size,fill) {
+		CorrelationMatrix( unsigned int size, _T fill = 0) : Matrix<_T>(size,size,fill) {
 			for (unsigned int i = 0; i < size; i++)
 				(*this)(i,i) = 1.0;
 		}

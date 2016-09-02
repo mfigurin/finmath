@@ -3,7 +3,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-#include "../finmath/dtutils.h"
+#include "../finmath/contractcalendar.h"
 
 namespace FinmathUnitTest
 {
@@ -11,33 +11,33 @@ namespace FinmathUnitTest
 	{
 	public:
 
-		TEST_METHOD(dayOfWeek)
+		TEST_METHOD(day_of_week)
 		{
-			int dayOfWeek = Sample::DTUtils::dayOfWeek(2000, 1, 1);
-			Assert::AreEqual(6, dayOfWeek);
+			int day_of_week = Sample::DTUtils::day_of_week(2000, 1, 1);
+			Assert::AreEqual(6, day_of_week);
 
-			dayOfWeek = Sample::DTUtils::dayOfWeek(2016, 9, 2);
-			Assert::AreEqual(5, dayOfWeek);
+			day_of_week = Sample::DTUtils::day_of_week(2016, 9, 2);
+			Assert::AreEqual(5, day_of_week);
 
-			dayOfWeek = Sample::DTUtils::dayOfWeek(2020, 12, 31);
-			Assert::AreEqual(4, dayOfWeek);
+			day_of_week = Sample::DTUtils::day_of_week(2020, 12, 31);
+			Assert::AreEqual(4, day_of_week);
 
-			dayOfWeek = Sample::DTUtils::dayOfWeek(2020, 2, 29);
-			Assert::AreEqual(6, dayOfWeek);
-     	}
+			day_of_week = Sample::DTUtils::day_of_week(2020, 2, 29);
+			Assert::AreEqual(6, day_of_week);
+		}
 
-		TEST_METHOD(isTraidingDay)
+		TEST_METHOD(is_traiding_day)
 		{
-			bool isTradingDay = Sample::DTUtils::isTraidingDay(2016, 9, 1);
+			bool isTradingDay = Sample::DTUtils::is_traiding_day(2016, 9, 1);
 			Assert::AreEqual(true, isTradingDay);
 
-			isTradingDay = Sample::DTUtils::isTraidingDay(2016, 9, 4);
+			isTradingDay = Sample::DTUtils::is_traiding_day(2016, 9, 4);
 			Assert::AreEqual(false, isTradingDay);
 
-			isTradingDay = Sample::DTUtils::isTraidingDay(2020, 2, 29);
+			isTradingDay = Sample::DTUtils::is_traiding_day(2020, 2, 29);
 			Assert::AreEqual(false, isTradingDay);
 
-			isTradingDay = Sample::DTUtils::isTraidingDay(2020, 2, 28);
+			isTradingDay = Sample::DTUtils::is_traiding_day(2020, 2, 28);
 			Assert::AreEqual(true, isTradingDay);
 		}
 

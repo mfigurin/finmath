@@ -7,19 +7,18 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace FinmathUnitTest
 {
-	TEST_CLASS(MatrixTest)
+	TEST_CLASS(Matrix2Test)
 	{
 	public:
 
 		TEST_METHOD(MatrixTest1)
 		{
+			Sample::Matrix matrix1(1,3,1.0);
+			Sample::Matrix matrix2(3,3,1.0);
+			Sample::Matrix result = matrix1*matrix2;
 
-			Sample::Matrix<double> matrix1(1,3,1);
-			Sample::Matrix<double> matrix2(3,3,1);
-			Sample::Matrix<double> result = matrix1*matrix2;
-
-			Assert::AreEqual( result.rows(), 1);
-			Assert::AreEqual( result.cols(), 3);
+			Assert::AreEqual( (int) result.rows(), 1);
+			Assert::AreEqual( (int) result.cols(), 3);
 
 			for( int i  = 0; i < result.rows(); i++ ) {
 				for( int j = 0; j < result.cols(); j++ ) {
@@ -28,30 +27,53 @@ namespace FinmathUnitTest
 			}
 		}
 
-
-		TEST_METHOD(CholeskyTestSampleInput)
+		TEST_METHOD(VectorTest1)
 		{
-			static const int SHARES_COUNT = 3;
-			
-			std::vector<double> correlations(SHARES_COUNT);
-			correlations[0] = 0.35;
-			correlations[1] = -0.4;
-			correlations[2] = 0.1;
-			Sample::CholeskyUpperTriangularMatrix<double> choleskyUpper( correlations, SHARES_COUNT );
+			Sample::Matrix vector(3,1,0.5);
+			Sample::Matrix matrix(3,3,1);
+			Sample::Matrix result = matrix * vector;
+
+			Assert::AreEqual( (int) result.rows(), 3);
+			Assert::AreEqual( (int) result.cols(), 1);
+
+			for( int i  = 0; i < result.rows(); i++ ) {
+				Assert::AreEqual( result(i), 1.5);
+			}
+		}
+
+		TEST_METHOD(CorrelationMatrixTest1)
+		{
+			Sample::CorrelationMatrix corr(3);
+			corr.set(0, 1, 0.5);
+			Assert::AreEqual( 3, (int) corr.rows());
+			Assert::AreEqual( 3, (int) corr.cols());
+			Assert::AreEqual( 1.0, corr(1,1));
+			Assert::AreEqual( 0.5, corr(0,1));
+			Assert::AreEqual( 0.5, corr(1,0));
+		}
+
+		TEST_METHOD(CorrelationMatrixTest2)
+		{
+			Sample::CorrelationMatrix corr(3);
+			corr.set( 0, 1, 0.35 );
+			corr.set( 0, 2, -0.4 );
+			corr.set( 1, 2, 0.1 );
+			Sample::Matrix choleskyUpper = corr.cholesky_decomposition().transpose();
 
 			//reduced to float
 			#pragma warning(disable : 4305)
-			float expected_results [SHARES_COUNT][SHARES_COUNT] = {
+			float expected_results [3][3] = {
 				{ 1.00000000, 0.35000000, -0.40000000 },
 				{ 0.00000000, 0.93674970, 0.25620505 },
 				{ 0.00000000, 0.00000000, 0.87997669 }
 			};
 
-			for( int i  = 0; i < SHARES_COUNT; i++ ) {
-				for( int j = 0; j < SHARES_COUNT; j++ ) {
+			for( int i  = 0; i < 3; i++ ) {
+				for( int j = 0; j < 3; j++ ) {
 					Assert::AreEqual( (float)choleskyUpper(i,j), expected_results[i][j]);
 				}
 			}
 		}
+
 	};
 }

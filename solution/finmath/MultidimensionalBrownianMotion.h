@@ -36,7 +36,7 @@ public:
 	//T: time (in years)
 	//steps: number of days
 	//sims: number of iterations
-	static Matrix<double> Simulate(const vector<ShareInfo>& shares, const vector<double>& Corr, int T, int steps, int sims);
+	static Matrix Simulate(const vector<ShareInfo>& shares, const vector<double>& Corr, int T, int steps, int sims);
 };
 
 }

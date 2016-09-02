@@ -5,7 +5,6 @@
 #include "stdafx.h"
 #include "Simulator.h"
 
-
 int _tmain(int argc, _TCHAR* argv[])
 {
 	struct tm trade_date = {0};
@@ -23,7 +22,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	basket[1] = Share("002_HK", "HKD", 17.1770, 0.03, 0.2);
 	basket[2] = Share("003_HK", "HKD", 19.2590, 0.03, 0.2);
 
-	Sample::CorrelationMatrix<double> matrix(3);
+	Sample::CorrelationMatrix matrix(3);
 	matrix.set(0,1, 0.35);
 	matrix.set(0,2, -0.4);
 	matrix.set(1,2, 0.1);
@@ -33,6 +32,6 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	Simulator sim(calendar, 400.00, basket, 0.72, correlationGenerator);
 	double present_value = sim.present_value();
-	std::cout << "Present value: " << present_value << "\n";
+	std::cout << "Present value: " << present_value << std::endl;
 }
 

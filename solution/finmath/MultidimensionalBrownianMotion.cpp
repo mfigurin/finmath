@@ -33,11 +33,11 @@ double ShareInfo::get_nu() const
 	return nu;
 }
 
-Matrix<double> MultidimensionalBrownianMotion::Simulate(const vector<ShareInfo>& shares, const vector<double>& Corr, int T, int steps, int sims)
+Matrix MultidimensionalBrownianMotion::Simulate(const vector<ShareInfo>& shares, const vector<double>& Corr, int T, int steps, int sims)
 {
 	int numAssets = shares.size();
 	double dt = 1.0/252;
-	Matrix<double> vPrices(steps*sims, numAssets);
+	Matrix vPrices(steps*sims, numAssets);
 
 	vector<double> nu(numAssets);
 	vector<double> sigma(numAssets);
@@ -49,7 +49,7 @@ Matrix<double> MultidimensionalBrownianMotion::Simulate(const vector<ShareInfo>&
 
 	//populate matrix of size steps by numAssets with nu*dt
 	//Matrix nudt(steps*sims, vector<double>(numAssets));
-	Matrix<double> nudt(steps*sims, numAssets);
+	Matrix nudt(steps*sims, numAssets);
 
 	for (int i = 0; i < steps*sims; ++i) {
 		for (int j = 0; j < numAssets; ++j) {
@@ -58,7 +58,7 @@ Matrix<double> MultidimensionalBrownianMotion::Simulate(const vector<ShareInfo>&
 	}
 
 	//convert vector sigma into diagonal matrix with zeros on off-diagonals
-	Matrix<double> diagSig(numAssets, numAssets);
+	Matrix diagSig(numAssets, numAssets);
 	for(int i=0; i<numAssets; ++i) {
 		for(int j=0; j<numAssets; ++j) {
 			diagSig(i,j) = i == j ? sigma[i] : 0.0;
@@ -70,7 +70,7 @@ Matrix<double> MultidimensionalBrownianMotion::Simulate(const vector<ShareInfo>&
 	srand((unsigned)time(0));
 
 	//Matrix randnMatrix(steps*sims, vector<double> (numAssets));
-	Matrix<double> randnMatrix(steps*sims, numAssets);
+	Matrix randnMatrix(steps*sims, numAssets);
 
 	NormalDistribution random_normal;
 
@@ -86,9 +86,9 @@ Matrix<double> MultidimensionalBrownianMotion::Simulate(const vector<ShareInfo>&
 	//Matrix C = matrixMult(Z, diagSig, steps*sims, numAssets, numAssets);
 	//Matrix vPrices(steps*sims, vector<double> (numAssets));
 
-	Matrix<double> Z = randnMatrix * CholeskyUpperTriangularMatrix<double>(Corr, numAssets);
-	Matrix<double> C = Z * diagSig;
-//	Matrix<double> vPrices(steps*sims, numAssets);
+	Matrix Z = randnMatrix * CholeskyUpperTriangularMatrix<double>(Corr, numAssets);
+	Matrix C = Z * diagSig;
+//	Matrix vPrices(steps*sims, numAssets);
 
 	for (int i = 0; i < steps*sims-1; i++) {
 		for (int j = 0; j < numAssets; j++) {
