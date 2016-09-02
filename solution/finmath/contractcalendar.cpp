@@ -38,8 +38,10 @@ namespace Sample {
 			calendar_days_number_++;
 			_localtime64_s(&next_day, &current);
 			if (isTraidingDay(next_day.tm_year, next_day.tm_mon, next_day.tm_mday)) {
+				traiding_days_number_++;
 				double delta = (is_traiding_days)? traiding_days_number_/traiding_year_days : calendar_days_number_/calendar_year_days;
 				TimePeriodItem* current_item = new TimePeriodItem(calendar_days_number_, traiding_days_number_, next_day, delta);
+				
 				list.push_back(current_item);
 			}
 			current += DAY_INCREMENT;
