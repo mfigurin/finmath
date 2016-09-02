@@ -4,6 +4,10 @@
 #include <exception>
 #include <algorithm>
 #include <functional>
+#include <iostream>
+#include <string>
+#include <sstream>
+
 #include "Matrix2.h"
 #include "randomgenerator.h"
 
@@ -50,7 +54,7 @@ class Simulator
 	double knock_in_percentage;
 	int sample_count;
 public:
-	Simulator(tm trade_date, tm final_date, double notional_amount, std::vector<Share>& basket, double knock_in_percentage, CorrelationGenerator correlation_generator);
+	Simulator(tm trade_date, tm final_date, double notional_amount, std::vector<Share>& basket, double knock_in_percentage, CorrelationGenerator& correlation_generator);
 	~Simulator(void);
 	double short_interest_rate(void);
 	double currency_rate(std::string currency1, std::string currency2, double time);

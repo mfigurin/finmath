@@ -6,16 +6,15 @@
 CorrelationGenerator::CorrelationGenerator(Sample::CorrelationMatrix<double>& matrix, Sample::RandomGenerator& generator) : 
 	correlation_matrix(matrix), 
 	generator(generator),
-	distribution(Sample::Matrix2<double>( 1, matrix.rows() )) {
-		correlation_matrix.cholesky_decomposition();
-		next_sample();
+	distribution(Sample::Matrix2<double>( matrix.rows(), 1)) {
+	next_sample();
 };
 
 void CorrelationGenerator::next_sample() {
 	for( int i = 0; i < correlation_matrix.rows(); i++ ) {
 		distribution(i) = generator.nextValue();
 	}
-	distribution = distribution * correlation_matrix;
+	distribution = correlation_matrix * distribution;
 }
 
 double CorrelationGenerator::wiener(int index) { 
@@ -45,7 +44,7 @@ void Share::update_current_price(double time, double wiener_process){
 	current_price = initial_price * exp(nu * time + sigma * wiener_process);
 }
 
-Simulator::Simulator(tm trade_date, tm final_date, double notional_amount, std::vector<Share> &basket, double knock_in_percentage, CorrelationGenerator correlation_generator) : 
+Simulator::Simulator(tm trade_date, tm final_date, double notional_amount, std::vector<Share> &basket, double knock_in_percentage, CorrelationGenerator& correlation_generator) : 
 	trade_date(trade_date),
 	final_date(final_date),
 	notional_amount(notional_amount),
@@ -83,7 +82,7 @@ double Simulator::determine_equity_amount(double lps, bool knocked_in){
 		performance = lps - 1.0;
 	else
 		performance = 1.0 - lps;
-	return notional_amount * lps;
+	return notional_amount * performance;
 }
 
 double Simulator::equity_amount_sample(){
@@ -112,6 +111,7 @@ double Simulator::equity_amount_sample(){
 double Simulator::equity_amount(void){
 	double sum = 0;
 	for ( int i = 0; i < sample_count; i++){
+		std::cout << "iteration: " <<  i << "\n";
 		double amount = equity_amount_sample();
 		sum += amount;
 	}

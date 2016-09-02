@@ -30,6 +30,9 @@ namespace Sample {
 			int inline cols() const { return _matrix[0].size(); }
 			
 			_T inline operator() ( int row, int col ) const {
+				//if( row < 0 || col < 0 || row >= rows() || col >= cols()) {
+				//	throw std::exception( "Invalid item index" );
+				//}
 				return _matrix.at(row).at(col);
 			}
 			_T inline &operator() ( int row, int col ) {
