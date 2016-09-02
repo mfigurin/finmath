@@ -18,7 +18,7 @@ private:
 	double nu;
 
 public:
-	ShareInfo(void);
+	ShareInfo();
 	ShareInfo(double S0, double mu, double sigma);
 	ShareInfo(const ShareInfo& info);
 
@@ -36,7 +36,7 @@ public:
 	//T: time (in years)
 	//steps: number of days
 	//sims: number of iterations
-	static Matrix<double>* Simulate(vector<ShareInfo> shares, vector<double> Corr, int T, int steps, int sims);
+	static Matrix<double> Simulate(const vector<ShareInfo>& shares, const vector<double>& Corr, int T, int steps, int sims);
 };
 
 }
