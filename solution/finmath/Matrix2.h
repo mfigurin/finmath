@@ -16,7 +16,7 @@ namespace Sample {
 
 		public:
 
-			Matrix2( unsigned int rows, unsigned int cols, double fill = 0 ){
+			Matrix2( int rows, int cols, double fill = 0 ){
 				if( rows < 1 || cols < 1 ) {
 					throw std::exception( "Invalid boundaries" );
 				}
@@ -26,17 +26,17 @@ namespace Sample {
 				_matrix = matrix._matrix;
 			}
 
-			int inline rows() { return _matrix.size(); }
-			int inline cols() { return _matrix[0].size(); }
+			int inline rows() const { return _matrix.size(); }
+			int inline cols() const { return _matrix[0].size(); }
 			
-			_T inline &operator() ( unsigned int row, unsigned int col ) {
+			_T inline operator() ( int row, int col ) const {
 				return _matrix.at(row).at(col);
 			}
-			_T inline operator() ( unsigned int row, unsigned int col ) const {
+			_T inline &operator() ( int row, int col ) {
 				return _matrix.at(row).at(col);
 			}
 
-			Matrix2<_T> operator* ( Matrix2<_T>& matrix ) {
+			Matrix2<_T> operator* ( const Matrix2<_T>& matrix ) {
 				Matrix2<_T> mult( rows(), matrix.cols() );
 				for( int i = 0; i < mult.rows(); i++ ) {
 					for( int j  = 0; j < mult.cols(); j++ ) { 
@@ -83,7 +83,7 @@ namespace Sample {
 			}			
 
 			// Vector index operators
-			_T inline &operator() ( unsigned int index ) {
+			_T inline &operator() ( int index ) {
 				if (cols() == 1 )
 					return (*this)(index,0);
 				else if (rows() == 1)
@@ -92,7 +92,7 @@ namespace Sample {
 					throw std::exception( "The matrix is not a vector" );
 			}
 			
-			_T inline operator() ( unsigned int index ) const {
+			_T inline operator() ( int index ) const {
 				if (cols() ==1 )
 					return this->(index,0);
 				else if (rows() == 1)
@@ -102,19 +102,37 @@ namespace Sample {
 			}
 	};
 
+	//// row matrix; when multiplied by matrix simulates column matix
 	//template<typename _T = double> 
-	//// column matrix
 	//class Vector : public Matrix2<_T> {
 	//public:
-	//	Vector( unsigned int size, double fill = 0) : Matrix2<_T>(size,1,fill) {
+	//	Vector( int size, double fill = 0) : Matrix2<_T>(1,size,fill) {
 	//	}
 	//	
-	//	_T inline &operator() ( unsigned int index ) {
-	//			return this->(index,0);
+	//	_T inline operator() ( int index ) const {
+	//		return (*this)(0,index);
 	//	}
-	//		
-	//	_T inline operator() ( unsigned int index ) const {
-	//		return return this->(index,0);
+	//	_T inline &operator() ( int index ) {
+	//		return (*this)(0,index);
+	//	}
+	//	_T inline operator() ( int row, int col ) const {
+	//		if( row > 0 && col > 0 ) {
+	//			throw std::exception( "Invalid: both indexes above zero." );
+	//		}
+	//		return Matrix2<_T>( 0, row + col ) ;
+	//	}
+	//	_T inline &operator() ( int row, int col ) {
+	//		if( row > 0 && col > 0 ) {
+	//			throw std::exception( "Invalid: both indexes above zero." );
+	//		}
+	//		return Matrix2<_T>( 0, row + col ) ;
+	//	}
+
+	//	Vector<_T> operator* ( const Matrix2<_T>& matrix ) {
+	//		return (Vector<_T>)Matrix2<_T>::operator*(matrix);
+	//	}
+	//	Vector<_T> operator* ( const Vector<_T>& vector ) {
+	//		return (Vector<_T>)Matrix2<_T>::operator*(matrix);
 	//	}
 
 	//};

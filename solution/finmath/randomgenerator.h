@@ -12,15 +12,14 @@ class RandomGenerator
 
 class NormalDistribution : public RandomGenerator
 {
+	std::default_random_engine _generator;
+	std::normal_distribution<double> _distribution;
+
 public: 
 	NormalDistribution();
 	NormalDistribution(double mean, double stdev);
-	~NormalDistribution();
 	
 	double nextValue();
-
-	std::default_random_engine generator_;
-	std::normal_distribution<double> distribution_;
 
 };
 

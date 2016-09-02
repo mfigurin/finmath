@@ -5,15 +5,20 @@
 #include <algorithm>
 #include <functional>
 #include "Matrix2.h"
+#include "randomgenerator.h"
 
-class CorrelationGenerator {
-	Sample::CorrelationMatrix<double> matrix;
+class CorrelationGenerator 
+{
+	Sample::CorrelationMatrix<double>& correlation_matrix;
+	Sample::RandomGenerator& generator;
+	Sample::Matrix2<double> distribution;
+
 public:
-	CorrelationGenerator(Sample::CorrelationMatrix<double>& matrix);
-	~CorrelationGenerator(void);
+	CorrelationGenerator(Sample::CorrelationMatrix<double>& matrix, Sample::RandomGenerator& generator = Sample::NormalDistribution());
 	void next_sample();
 	double wiener(int index);
 };
+
 
 class Share
 {

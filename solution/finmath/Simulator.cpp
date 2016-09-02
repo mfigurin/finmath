@@ -2,13 +2,25 @@
 #include "stdafx.h"
 #include "Simulator.h"
 
-CorrelationGenerator::CorrelationGenerator(Sample::CorrelationMatrix<double>& matrix) : matrix(matrix){};
-CorrelationGenerator::~CorrelationGenerator(void){};
 
-void CorrelationGenerator::next_sample() {}
-double CorrelationGenerator::wiener(int index) { 
-	return 0.0;
+CorrelationGenerator::CorrelationGenerator(Sample::CorrelationMatrix<double>& matrix, Sample::RandomGenerator& generator) : 
+	correlation_matrix(matrix), 
+	generator(generator),
+	distribution(Sample::Matrix2<double>( 1, matrix.rows() )) {
+	next_sample();
+};
+
+void CorrelationGenerator::next_sample() {
+	for( int i = 0; i < correlation_matrix.rows(); i++ ) {
+		distribution(i) = generator.nextValue();
+	}
+	distribution = distribution * correlation_matrix;
 }
+
+double CorrelationGenerator::wiener(int index) { 
+	return distribution(index);
+}
+
 
 Share::Share(std::string name, std::string currency, double initial_price, double drift, double volatility) :
 	name(name), 
