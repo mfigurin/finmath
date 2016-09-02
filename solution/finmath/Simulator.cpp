@@ -38,13 +38,15 @@ Simulator::Simulator(tm trade_date, tm final_date, double notional_amount, std::
 	notional_amount(notional_amount),
 	basket(basket), 
 	knock_in_percentage(knock_in_percentage),
-	correlation_generator(correlation_generator){}
+	correlation_generator(correlation_generator),
+	sample_count(10)
+{}
 
 Simulator::~Simulator(void) {}
 
 inline double Simulator::short_interest_rate(void)
 {
-	return 0.3;
+	return 0.03;
 }
 
 double Simulator::currency_rate(std::string currency1, std::string currency2, double time){
@@ -74,7 +76,8 @@ double Simulator::determine_equity_amount(double lps, bool knocked_in){
 double Simulator::equity_amount_sample(){
 
 	double period = 3;
-	double step = 1/365;
+	//double step = 1/365;
+	double step = 3;
 
 	bool knocked_in = false;
 	double lps;
@@ -89,13 +92,15 @@ double Simulator::equity_amount_sample(){
 		lps = least_performing_share (basket);		
 		knocked_in |= lps < knock_in_percentage;
 	}
-	return determine_equity_amount(lps, knocked_in) / currency_rate("USD", "HKD", period);
+	//return determine_equity_amount(lps, knocked_in) / currency_rate("USD", "HKD", period);
+	return determine_equity_amount(lps, knocked_in);
 }
 
 double Simulator::equity_amount(void){
 	double sum = 0;
 	for ( int i = 0; i < sample_count; i++){
-		sum += equity_amount_sample();
+		double amount = equity_amount_sample();
+		sum += amount;
 	}
 	return sum / sample_count;
 }
