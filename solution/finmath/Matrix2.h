@@ -81,23 +81,43 @@ namespace Sample {
 				}
 				return l;
 			}			
-	};
 
-	template<typename _T = double> 
-	class Vector : public Matrix2<_T> {
-	public:
-		Vector( unsigned int size, double fill = 0) : Matrix2<_T>(1,size,fill) {
-		}
-		
-		_T inline &operator() ( unsigned int index ) {
-				return this->(0,index);
-		}
+			// Vector index operators
+			_T inline &operator() ( unsigned int index ) {
+				if (cols() == 1 )
+					return (*this)(index,0);
+				else if (rows() == 1)
+					return (*this)(0,index);
+				else
+					throw std::exception( "The matrix is not a vector" );
+			}
 			
-		_T inline operator() ( unsigned int index ) const {
-			return return this->(0,index);
-		}
-
+			_T inline operator() ( unsigned int index ) const {
+				if (cols() ==1 )
+					return this->(index,0);
+				else if (rows() == 1)
+					return this->(0,index);
+				else
+					throw std::exception( "The matrix is not a vector" );
+			}
 	};
+
+	//template<typename _T = double> 
+	//// column matrix
+	//class Vector : public Matrix2<_T> {
+	//public:
+	//	Vector( unsigned int size, double fill = 0) : Matrix2<_T>(size,1,fill) {
+	//	}
+	//	
+	//	_T inline &operator() ( unsigned int index ) {
+	//			return this->(index,0);
+	//	}
+	//		
+	//	_T inline operator() ( unsigned int index ) const {
+	//		return return this->(index,0);
+	//	}
+
+	//};
 
 	template<typename _T = double> 
 	class CorrelationMatrix : public Matrix2<_T> {

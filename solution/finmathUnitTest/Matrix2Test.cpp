@@ -29,17 +29,15 @@ namespace FinmathUnitTest
 
 		TEST_METHOD(VectorTest1)
 		{
-			Sample::Vector<double> vector(3,1.0);
-			Sample::Matrix2<double> matrix(3,3,1.0);
-			Sample::Matrix2<double> result = vector * matrix;
+			Sample::Matrix2<double> vector(3,1,0.5);
+			Sample::Matrix2<double> matrix(3,3,1);
+			Sample::Matrix2<double> result = matrix * vector;
 
-			Assert::AreEqual( (int) result.rows(), 1);
-			Assert::AreEqual( (int) result.cols(), 3);
+			Assert::AreEqual( (int) result.rows(), 3);
+			Assert::AreEqual( (int) result.cols(), 1);
 
 			for( int i  = 0; i < result.rows(); i++ ) {
-				for( int j = 0; j < result.cols(); j++ ) {
-					Assert::AreEqual( result(i,j), 3.0);
-				}
+				Assert::AreEqual( result(i), 1.5);
 			}
 		}
 
