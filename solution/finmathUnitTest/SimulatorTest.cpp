@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
+#include <iostream>
+#include <string>
+#include <sstream>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -34,6 +37,8 @@ namespace FinmathUnitTest
 			matrix.set(1,2, 0.1);
 
 			Simulator sim(trade_date, final_date, 400.00, basket, 0.72, CorrelationGenerator(matrix));
+			double present_value = sim.present_value();
+			std::cout << "Present value: " << present_value;
 		}
 
 	};

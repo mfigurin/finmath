@@ -1,16 +1,14 @@
-
 #pragma once
 #include <list>
 namespace Sample {
 
+	enum CalendarMode {
+		TRAIDING_DAYS = 1,
+		CALENDAR_DAYS = 2
+	};
 
-enum CalendarMode {
-	TRAIDING_DAYS = 1,
-	CALENDAR_DAYS = 2
-};
-
-class TimePeriodItem
-{
+	class TimePeriodItem
+	{
 	public:
 		TimePeriodItem(int contractDayNumber, int traidingDayNumber, tm time, double delta ) {
 			contractDayNumber_ = contractDayNumber;
@@ -25,21 +23,21 @@ class TimePeriodItem
 		tm time_;
 		double deltaT;
 
-};
+	};
 
-typedef std::list<TimePeriodItem*> CalendarItems;
-class ContractCalendar 
-{
-public:
+	typedef std::list<TimePeriodItem*> CalendarItems;
+	class ContractCalendar 
+	{
+	public:
 		ContractCalendar(CalendarMode mode, int from_year, int from_month, int from_day, int to_year, int to_month, int to_day);
 		virtual bool isHoliday(int year, int month, int day);
 		virtual bool isTraidingDay(int year, int month, int day);
 		virtual int getTraidingDaysNumber();
 		virtual int getCalendarDaysNumber();
-		
+
 		CalendarItems getCalendarItems();
 
-private:
+	private:
 		void initTraidingDaysList(CalendarMode mode);
 
 		int calendar_days_number_;
@@ -48,11 +46,11 @@ private:
 		//This is tm type info about contract time span  
 		struct tm start_time_;
 		struct tm end_time_;
-	
+
 		static const int DAY_INCREMENT = 24 * 60 * 60;
 
 		std::list<TimePeriodItem*> list;
-	
-};
+
+	};
 
 }
