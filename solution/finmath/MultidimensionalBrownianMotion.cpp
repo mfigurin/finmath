@@ -3,8 +3,7 @@
 
 namespace Sample
 {
-
-ShareInfo::ShareInfo(void) {}
+ShareInfo::ShareInfo() {}
 ShareInfo::ShareInfo(double S0, double mu, double sigma) : S0(S0), sigma(sigma), nu(mu-sigma*sigma/2) {};
 
 ShareInfo::ShareInfo(const ShareInfo& info)
@@ -34,26 +33,23 @@ double ShareInfo::get_nu() const
 	return nu;
 }
 
-Matrix<double>* MultidimensionalBrownianMotion::Simulate(vector<ShareInfo> shares, vector<double> Corr, int T, int steps, int sims)
+Matrix<double> MultidimensionalBrownianMotion::Simulate(const vector<ShareInfo>& shares, const vector<double>& Corr, int T, int steps, int sims)
 {
 	int numAssets = shares.size();
 	double dt = 1.0/252;
+	Matrix<double> vPrices(steps*sims, numAssets);
 
-	vector<double> nu = vector<double>(numAssets);
-	vector<double> sigma = vector<double>(numAssets);
+	vector<double> nu(numAssets);
+	vector<double> sigma(numAssets);
 
 	for(int i=0; i<numAssets; ++i) {
 		nu[i] = shares[i].get_nu();
 		sigma[i] = shares[i].get_sigma();
 	}
 
-	//Cholesky decomposition of correlation matrix to produce upper triangular matrix
-	//Matrix Y = transpose(cholesky(Corr), numAssets, numAssets);
-	CholeskyUpperTriangularMatrix<double> Y = CholeskyUpperTriangularMatrix<double>(Corr, numAssets);
-
 	//populate matrix of size steps by numAssets with nu*dt
 	//Matrix nudt(steps*sims, vector<double>(numAssets));
-	Matrix<double> nudt = Matrix<double>(steps*sims, numAssets);
+	Matrix<double> nudt(steps*sims, numAssets);
 
 	for (int i = 0; i < steps*sims; ++i) {
 		for (int j = 0; j < numAssets; ++j) {
@@ -62,7 +58,7 @@ Matrix<double>* MultidimensionalBrownianMotion::Simulate(vector<ShareInfo> share
 	}
 
 	//convert vector sigma into diagonal matrix with zeros on off-diagonals
-	Matrix<double> diagSig = Matrix<double>(numAssets, numAssets);
+	Matrix<double> diagSig(numAssets, numAssets);
 	for(int i=0; i<numAssets; ++i) {
 		for(int j=0; j<numAssets; ++j) {
 			diagSig(i,j) = i == j ? sigma[i] : 0.0;
@@ -90,14 +86,14 @@ Matrix<double>* MultidimensionalBrownianMotion::Simulate(vector<ShareInfo> share
 	//Matrix C = matrixMult(Z, diagSig, steps*sims, numAssets, numAssets);
 	//Matrix vPrices(steps*sims, vector<double> (numAssets));
 
-	Matrix<double> Z = randnMatrix * Y;
+	Matrix<double> Z = randnMatrix * CholeskyUpperTriangularMatrix<double>(Corr, numAssets);
 	Matrix<double> C = Z * diagSig;
-	Matrix<double>* vPrices = new Matrix<double>(steps*sims, numAssets);
+//	Matrix<double> vPrices(steps*sims, numAssets);
 
 	for (int i = 0; i < steps*sims-1; i++) {
 		for (int j = 0; j < numAssets; j++) {
 			//initialize new paths with initial asset prices or generate full paths
-			(*vPrices)(i,j) = i==0 || (i+1)%252==0 ? shares[j].get_S0() : exp(nudt(i,j) + C(i,j)*sqrt(dt)) * (*vPrices)(i-1,j);
+			vPrices(i,j) = i==0 || (i+1)%252==0 ? shares[j].get_S0() : exp(nudt(i,j) + C(i,j)*sqrt(dt)) * vPrices(i-1,j);
 		}
 	}
 
