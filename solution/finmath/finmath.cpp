@@ -28,7 +28,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	matrix.set(0,2, -0.4);
 	matrix.set(1,2, 0.1);
 
-	Simulator sim(trade_date, final_date, 400.00, basket, 0.72, CorrelationGenerator(matrix, Sample::NormalDistribution()));
+	CorrelationGenerator correlationGenerator(matrix, Sample::NormalDistribution());
+
+	Simulator sim(trade_date, final_date, 400.00, basket, 0.72, correlationGenerator);
 	double present_value = sim.present_value();
 	std::cout << "Present value: " << present_value;
 }
