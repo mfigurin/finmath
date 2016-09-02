@@ -10,6 +10,7 @@
 
 #include "Matrix2.h"
 #include "randomgenerator.h"
+#include "contractcalendar.h"
 
 class CorrelationGenerator 
 {
@@ -46,15 +47,14 @@ public:
 
 class Simulator
 {
-	tm trade_date;
-	tm final_date;
+	Sample::ContractCalendar& calendar;
 	double notional_amount;
 	std::vector<Share>& basket;
 	CorrelationGenerator& correlation_generator;
 	double knock_in_percentage;
 	int sample_count;
 public:
-	Simulator(tm trade_date, tm final_date, double notional_amount, std::vector<Share>& basket, double knock_in_percentage, CorrelationGenerator& correlation_generator);
+	Simulator(Sample::ContractCalendar& calendar, double notional_amount, std::vector<Share>& basket, double knock_in_percentage, CorrelationGenerator& correlation_generator);
 	~Simulator(void);
 	double short_interest_rate(void);
 	double currency_rate(std::string currency1, std::string currency2, double time);

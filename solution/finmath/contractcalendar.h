@@ -32,7 +32,7 @@ namespace Sample {
 		public:
 			ContractCalendar(CalendarMode mode, int from_year, int from_month, int from_day, int to_year, int to_month, int to_day);
 			CalendarMode getCalendarMode();
-			double getContractDeltaT(); 
+			double getContractDeltaT(void); 
 			CalendarItems getCalendarItems();
 
 		private:

@@ -44,14 +44,13 @@ void Share::update_current_price(double time, double wiener_process){
 	current_price = initial_price * exp(nu * time + sigma * wiener_process);
 }
 
-Simulator::Simulator(tm trade_date, tm final_date, double notional_amount, std::vector<Share> &basket, double knock_in_percentage, CorrelationGenerator& correlation_generator) : 
-	trade_date(trade_date),
-	final_date(final_date),
+Simulator::Simulator(Sample::ContractCalendar& calendar, double notional_amount, std::vector<Share> &basket, double knock_in_percentage, CorrelationGenerator& correlation_generator) : 
+	calendar(calendar),
 	notional_amount(notional_amount),
 	basket(basket), 
 	knock_in_percentage(knock_in_percentage),
 	correlation_generator(correlation_generator),
-	sample_count(10)
+	sample_count(1000)
 {}
 
 Simulator::~Simulator(void) {}
@@ -87,16 +86,17 @@ double Simulator::determine_equity_amount(double lps, bool knocked_in){
 
 double Simulator::equity_amount_sample(){
 
-	double period = 3;
-	//double step = 1/365;
-	double step = 3;
+	Sample::CalendarItems steps = calendar.getCalendarItems();
 
 	bool knocked_in = false;
 	double lps;
-	for (double time = step; time <= period; time+=step){
+	int i = 0;
+	for (std::list<Sample::TimePeriodItem*>::iterator it = steps.begin(); it != steps.end(); ++it, i++){		
+		double time = (*it)->deltaT;
+
 		// jump to final date if the knock-in event happened
 		if (knocked_in)
-			time = period;
+			time = calendar.getContractDeltaT() ;
 		correlation_generator.next_sample();
 		for (unsigned int j = 0; j < basket.size(); j++) {
 			basket[j].update_current_price(time, correlation_generator.wiener(j));
@@ -104,6 +104,7 @@ double Simulator::equity_amount_sample(){
 		lps = least_performing_share (basket);		
 		knocked_in |= lps < knock_in_percentage;
 	}
+	std::cout << i << " steps done" << "\n";
 	//return determine_equity_amount(lps, knocked_in) / currency_rate("USD", "HKD", period);
 	return determine_equity_amount(lps, knocked_in);
 }
@@ -119,7 +120,7 @@ double Simulator::equity_amount(void){
 }
 
 double Simulator::number_of_periods(void){
-	return 3;
+	return calendar.getContractDeltaT();
 }
 
 double Simulator::present_value(void){

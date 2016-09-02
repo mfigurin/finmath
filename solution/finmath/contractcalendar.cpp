@@ -71,7 +71,7 @@ namespace Sample {
 		return list;
 	}
 
-	double ContractCalendar::getContractDeltaT() {
+	double ContractCalendar::getContractDeltaT(void) {
 		return contractDeltaT;
 	}
 	
