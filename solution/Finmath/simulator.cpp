@@ -3,6 +3,8 @@
 #include <fstream>
 #include "simulator.h"
 
+
+
 using namespace finmath;
 
 namespace finmath {
@@ -21,7 +23,6 @@ namespace finmath {
 	double NormalDistribution::nextValue() {
 		return distribution_(generator_);
 	}
-
 
 	CorrelationGenerator::CorrelationGenerator(CorrelationMatrix& matrix, RandomGenerator& generator) : 
 		correlation_matrix_(matrix), 
@@ -46,7 +47,8 @@ namespace finmath {
 		name_(name), 
 		currency_(currency), 
 		initial_price_(initial_price),
-		sigma_(volatility), 
+		sigma_(volatility),
+		mu_(drift),
 		nu_(drift-sigma_*sigma_/2)
 	{}
 
@@ -55,13 +57,21 @@ namespace finmath {
 		currency_ = share.currency_;
 		initial_price_ = share.initial_price_;
 		sigma_ = share.sigma_;
+		mu_ = share.mu_;
 		nu_ = share.nu_;
 	}
 
 	Share::~Share(void) {}
 
 	void Share::update_current_price(double time, double wiener_process){
-		current_price_ = initial_price_ * exp(nu_ * time + sigma_ * wiener_process);
+		current_price_ = initial_price_ * exp(nu_ * time + sigma_ * sqrt(time) * wiener_process);
+	}
+
+	std::ostream& operator<<(std::ostream &strm, const Share &share) {
+		return strm << 
+			share.name_ << ": " << share.initial_price_ << share.currency_ << 
+			" drift:" << share.mu_ << 
+			" volatility:" << share.sigma_;  
 	}
 
 	Simulator::Simulator(ContractCalendar& calendar, double notional_amount, double short_interest_rate, std::vector<Share> &basket, double knock_in_percentage, CorrelationGenerator& correlation_generator) : 
@@ -73,7 +83,8 @@ namespace finmath {
 		correlation_generator_(correlation_generator),
 		sample_count_(10000),
 		stored_iteration_index_(-1),
-		check_knock_in_event_(true)
+		check_knock_in_event_(true),
+		jump_to_final_date_(true)
 	{}
 
 	Simulator::~Simulator(void) {}
@@ -102,10 +113,8 @@ namespace finmath {
 		double performance;
 		if (!knocked_in)
 			performance = std::max(lps - 1.0, 0.0);
-		else if (lps >= 1.0)
-			performance = lps - 1.0;
 		else
-			performance = 1.0 - lps;
+			performance = lps - 1.0;
 		return notional_amount_ * performance;
 	}
 
@@ -121,7 +130,7 @@ namespace finmath {
 			double time = (*it)->deltaT;
 
 			// jump to final date if the knock-in event happened
-			if (knocked_in){
+			if (knocked_in && jump_to_final_date_){
 				time = calendar_.get_contract_deltaT() ;
 				knocked_in_processed = true;
 			}
@@ -147,7 +156,7 @@ namespace finmath {
 		return determine_equity_amount(lps, knocked_in);
 	}
 
-	double Simulator::equity_amount(void){
+	double Simulator::simulate_equity_amount(void){
 		double sum = 0;
 		for ( int i = 0; i < sample_count_; i++){
 			int performed_steps_count;
@@ -165,22 +174,17 @@ namespace finmath {
 		return calendar_.get_contract_deltaT();
 	}
 
-	double Simulator::present_value(void){
-		return equity_amount()  / pow (( 1 + short_interest_rate_), number_of_periods());
+	double Simulator::simulate_present_value(void){
+		return simulate_equity_amount()  / pow (( 1 + short_interest_rate_), number_of_periods());
 	}
 
 	void Simulator::store_iteration(int index){
 		stored_iteration_index_ = index;
 	}
 
-	std::vector<std::vector<double>> Simulator::stored_iteration_data(){
-		return stored_iteration_data_;
-	}
-
 	void Simulator::save_iteration_data(std::string file_name){
 		std::ofstream file;
 		file.open(file_name);
-		std::vector<Share>::iterator it; //объ€вл€ю итератор it
 
 		file << "time,'";
 		for (unsigned int j = 0; j < basket_.size(); j++) {
@@ -200,4 +204,21 @@ namespace finmath {
 	void Simulator::check_knock_in_event(bool mode){
 		check_knock_in_event_ = mode;
 	}
+
+	void Simulator::jump_to_final_date(bool mode){
+		jump_to_final_date_ = mode;
+	}
+
+	std::ostream& operator<<(std::ostream &strm, const Simulator &sim) {
+		strm << 
+			"notional amount:" << sim.notional_amount_ << std::endl <<
+			"short interest rate:" << sim.short_interest_rate_ << std::endl <<
+			"sample count:" << sim.sample_count_ << std::endl <<
+			"knock in percentage:" << sim.knock_in_percentage_ << std::endl <<
+			"Shares:" << std::endl; 
+		for( int i = 0; i < sim.basket_.size(); i++)
+			strm << '\t' << sim.basket_[i] << std::endl;
+		return strm;
+	}
+
 }

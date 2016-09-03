@@ -6,10 +6,10 @@ using namespace finmath;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	std::vector<Share> basket(3, Share("001_HK", "HKD", 17.4985, 0.03, 0.2));
-	basket[0] = Share("001_HK", "HKD", 17.4985, 0.03, 0.2);
-	basket[1] = Share("002_HK", "HKD", 17.1770, 0.03, 0.2);
-	basket[2] = Share("003_HK", "HKD", 19.2590, 0.03, 0.2);
+	std::vector<Share> basket;
+	basket.push_back(Share("001_HK", "HKD", 17.4985, 0.03, 0.2));
+	basket.push_back(Share("002_HK", "HKD", 17.1770, 0.03, 0.2));
+	basket.push_back(Share("003_HK", "HKD", 19.2590, 0.03, 0.2));
 
 	CorrelationMatrix matrix(3);
 	matrix.set(0,1, 0.35);
@@ -25,11 +25,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	CorrelationGenerator correlationGenerator(matrix, NormalDistribution());
 
 	Simulator sim(calendar, 400.00, 0.03, basket, 0.72, correlationGenerator);
+
+	std::cout << sim;
+
 	sim.set_sample_count(100);
 	sim.store_iteration(0);
-	sim.check_knock_in_event(false);
+	//sim.check_knock_in_event(false);
+	sim.jump_to_final_date(false);
 
-	std::cout << "Present value: " << sim.present_value() << std::endl;
+	std::cout << "Present value: " << sim.simulate_present_value() << std::endl;
 	sim.save_iteration_data("data.csv");
 }
 

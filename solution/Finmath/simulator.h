@@ -54,11 +54,14 @@ namespace finmath {
 		double initial_price_;
 		double current_price_;
 
+		// drift
+		double mu_;
 		// volatility
 		double sigma_;
 		// mu - sigma_*sigma_/2
 		double nu_;
 
+		friend std::ostream& operator<<(std::ostream&, const Share&);
 	public:
 
 		Share(std::string name, std::string currency, double initial_price, double drift, double volatility);
@@ -79,7 +82,7 @@ namespace finmath {
 			return name_;
 		}
 	};
-
+	
 	class Simulator
 	{
 		ContractCalendar& calendar_;
@@ -91,24 +94,29 @@ namespace finmath {
 		double short_interest_rate_;
 
 		bool check_knock_in_event_;
+		bool jump_to_final_date_;
 		int stored_iteration_index_;
 		std::vector<std::vector<double>> stored_iteration_data_;
 
+		double currency_rate(std::string currency1, std::string currency2, double time);
+		double number_of_periods(void);
+		double least_performing_share(std::vector<Share>& basket);
+		double determine_equity_amount(double price, bool knocked_in);
+		double equity_amount_sample(int* steps_done, bool store_data);
+		
+		friend std::ostream& operator<<(std::ostream&, const Simulator&);
 	public:
 		Simulator(ContractCalendar& calendar, double notional_amount, double short_interest_rate, std::vector<Share>& basket, double knock_in_percentage, CorrelationGenerator& correlation_generator);
 		~Simulator(void);
 
+
+		double simulate_equity_amount(void);
+		double simulate_present_value(void);
+
 		void set_sample_count(int count);
-		double currency_rate(std::string currency1, std::string currency2, double time);
-		double least_performing_share(std::vector<Share>& basket);
-		double determine_equity_amount(double price, bool knocked_in);
-		double equity_amount_sample(int* steps_done, bool store_data);
-		double equity_amount(void);
-		double number_of_periods(void);
-		double present_value(void);
 		void store_iteration(int index);
-		std::vector<std::vector<double>> stored_iteration_data();
 		void save_iteration_data(std::string file_name);
 		void check_knock_in_event(bool mode);
+		void jump_to_final_date(bool mode);
 	};
 }
