@@ -26,7 +26,10 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	Simulator sim(calendar, 400.00, 0.03, basket, 0.72, correlationGenerator);
 	sim.set_sample_count(100);
+	sim.store_iteration(0);
+	sim.check_knock_in_event(false);
 
 	std::cout << "Present value: " << sim.present_value() << std::endl;
+	sim.save_iteration_data("data.csv");
 }
 

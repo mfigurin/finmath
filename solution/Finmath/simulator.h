@@ -69,6 +69,14 @@ public:
 	double inline performance_level(void) const {
 		return current_price_ / initial_price_;
 	}
+
+	double inline current_price(void) const {
+		return current_price_;
+	}
+
+	std::string inline name(void) const {
+		return name_;
+	}
 };
 
 class Simulator
@@ -81,6 +89,10 @@ class Simulator
 	int sample_count_;
 	double short_interest_rate_;
 
+	bool check_knock_in_event_;
+	int stored_iteration_index_;
+	std::vector<std::vector<double>> stored_iteration_data_;
+
 public:
 	Simulator(ContractCalendar& calendar, double notional_amount, double short_interest_rate, std::vector<Share>& basket, double knock_in_percentage, CorrelationGenerator& correlation_generator);
 	~Simulator(void);
@@ -89,8 +101,12 @@ public:
 	double currency_rate(std::string currency1, std::string currency2, double time);
 	double least_performing_share(std::vector<Share>& basket);
 	double determine_equity_amount(double price, bool knocked_in);
-	double equity_amount_sample(int* steps_done);
+	double equity_amount_sample(int* steps_done, bool store_data);
 	double equity_amount(void);
 	double number_of_periods(void);
 	double present_value(void);
+	void store_iteration(int index);
+	std::vector<std::vector<double>> stored_iteration_data();
+	void save_iteration_data(std::string file_name);
+	void check_knock_in_event(bool mode);
 };

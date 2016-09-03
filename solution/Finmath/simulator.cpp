@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <random>
+#include <fstream>
 #include "simulator.h"
 
 using namespace finmath;
@@ -73,7 +74,9 @@ Simulator::Simulator(ContractCalendar& calendar, double notional_amount, double 
 	basket_(basket), 
 	knock_in_percentage_(knock_in_percentage),
 	correlation_generator_(correlation_generator),
-	sample_count_(10000)
+	sample_count_(10000),
+	stored_iteration_index_(-1),
+	check_knock_in_event_(true)
 {}
 
 Simulator::~Simulator(void) {}
@@ -109,7 +112,7 @@ double Simulator::determine_equity_amount(double lps, bool knocked_in){
 	return notional_amount_ * performance;
 }
 
-double Simulator::equity_amount_sample(int* performed_steps_count){
+double Simulator::equity_amount_sample(int* performed_steps_count, bool store_data){
 
 	CalendarItems steps = calendar_.get_calendar_items();
 
@@ -129,8 +132,19 @@ double Simulator::equity_amount_sample(int* performed_steps_count){
 		for (unsigned int j = 0; j < basket_.size(); j++) {
 			basket_[j].update_current_price(time, correlation_generator_.wiener(j));
 		}
-		lps = least_performing_share (basket_);		
-		knocked_in |= lps < knock_in_percentage_;
+		if (store_data){
+			std::vector<double> data(basket_.size() + 1);
+			data[0] = time;
+			for (unsigned int j = 0; j < basket_.size(); j++) {
+				data[j+1] = basket_[j].current_price();
+			}
+			stored_iteration_data_.push_back(data);
+		}
+
+		lps = least_performing_share (basket_);
+		if (check_knock_in_event_){
+			knocked_in |= lps < knock_in_percentage_;
+		}
 	}
 	*performed_steps_count = i;
 	return determine_equity_amount(lps, knocked_in);
@@ -140,7 +154,7 @@ double Simulator::equity_amount(void){
 	double sum = 0;
 	for ( int i = 0; i < sample_count_; i++){
 		int performed_steps_count;
-		double simulated_equity_amount = equity_amount_sample(&performed_steps_count);
+		double simulated_equity_amount = equity_amount_sample(&performed_steps_count, i == stored_iteration_index_);
 		sum += simulated_equity_amount;
 		std::cout << 
 			"iteration:" << std::setw(7) << std::left << i << 
@@ -156,4 +170,36 @@ double Simulator::number_of_periods(void){
 
 double Simulator::present_value(void){
 	return equity_amount()  / pow (( 1 + short_interest_rate_), number_of_periods());
+}
+
+void Simulator::store_iteration(int index){
+	stored_iteration_index_ = index;
+}
+
+std::vector<std::vector<double>> Simulator::stored_iteration_data(){
+	return stored_iteration_data_;
+}
+
+void Simulator::save_iteration_data(std::string file_name){
+	std::ofstream file;
+	file.open(file_name);
+	std::vector<Share>::iterator it; //объ€вл€ю итератор it
+ 
+	file << "time,'";
+	for (unsigned int j = 0; j < basket_.size(); j++) {
+		file << basket_[j].name() << ',';
+	}
+	file << std::endl;
+	for (std::vector<std::vector<double>>::iterator it = stored_iteration_data_.begin(); it != stored_iteration_data_.end(); it++) {
+		for (unsigned int j = 0; j < (*it).size(); j++) {
+			file << (*it)[j] << ',';
+		}
+		file << std::endl;
+	}
+	file.close();
+	std::cout << "Sample data (iteration " << stored_iteration_index_ << ") stored in '" << file_name << "' file" << std::endl;
+}
+
+void Simulator::check_knock_in_event(bool mode){
+	check_knock_in_event_ = mode;
 }
