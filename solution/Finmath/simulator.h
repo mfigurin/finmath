@@ -123,6 +123,8 @@ namespace finmath {
 		int stored_iteration_index_;
 		std::vector<std::vector<double>> stored_iteration_data_;
 		std::string data_file_name_;
+		bool suppress_party_A_payments_;	
+		bool suppress_party_B_payments_;	
 
 		// Writes one iteration data to .csv file
 		void write_iteration_data();
@@ -159,5 +161,9 @@ namespace finmath {
 		// Simulation jumps to the final contract date if the knock-in event happened.
 		// Call sim.jump_to_final_date(false) to turn off that optimization.
 		void jump_to_final_date(bool mode);
+
+		// Payments a party to pay can be suppressed.
+		// This feature should be used for debugging purpose only
+		void suppress_payments(bool suppress_party_A_payments, bool suppress_party_B_payments);
 	};
 }

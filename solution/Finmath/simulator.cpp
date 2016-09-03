@@ -88,7 +88,9 @@ namespace finmath {
 		sample_count_(10000),
 		stored_iteration_index_(-1),
 		check_knock_in_event_(true),
-		jump_to_final_date_(true)
+		jump_to_final_date_(true),
+		suppress_party_A_payments_(false),
+		suppress_party_B_payments_(false)
 	{}
 
 	Simulator::~Simulator(void) {}
@@ -125,6 +127,9 @@ namespace finmath {
 		// Party B pays to party A if knock-in event happened and the final LPS is less than 100%
 		else
 			performance = lps - 1.0;
+		if ( (performance > 0 && suppress_party_A_payments_) || (performance < 0 && suppress_party_B_payments_)){
+			performance = 0;
+		}
 		return notional_amount_ * performance;
 	}
 
@@ -235,6 +240,12 @@ namespace finmath {
 
 	void Simulator::jump_to_final_date(bool mode){
 		jump_to_final_date_ = mode;
+	}
+
+	void Simulator::suppress_payments(bool suppress_party_A_payments, bool suppress_party_B_payments)
+	{
+		suppress_party_A_payments_ = suppress_party_A_payments;
+		suppress_party_B_payments_ = suppress_party_B_payments;
 	}
 
 	std::ostream& operator<<(std::ostream &strm, const Simulator &sim) {

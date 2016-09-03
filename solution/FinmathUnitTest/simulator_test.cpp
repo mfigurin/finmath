@@ -37,7 +37,7 @@ namespace FinmathUnitTest
 			Simulator sim(calendar, 400.00, 0.03, basket, 0.72, correlation_generator);
 			double present_value = sim.simulate_present_value();
 			std::cout << "Present value: " << present_value;
-			sim.save_iteration_data("sim.txt");
+			sim.save_iteration_data(0, "sim.txt");
 		}
 
 		TEST_METHOD(CheckEquityAmount)
@@ -62,7 +62,7 @@ namespace FinmathUnitTest
 
 			Simulator sim(calendar, 400.00, 0.03, basket, 0.72, correlation_generator);
 			sim.set_sample_count(1);
-   		    sim.equity_amount();
+   		    sim.simulate_equity_amount();
 		}
 	};
 }

@@ -29,6 +29,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::cout << sim;
 
 	sim.set_sample_count(100);
+	sim.suppress_payments(false, true);
 	//sim.save_iteration_data(0, "data.csv");
 	//sim.check_knock_in_event(false);
 	//sim.jump_to_final_date(false);
