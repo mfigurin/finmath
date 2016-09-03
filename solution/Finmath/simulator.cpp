@@ -113,6 +113,9 @@ namespace finmath {
 		return *std::min_element(performance_level.begin(), performance_level.end());
 	}
 
+	// The equity amount determination logic seems be a combination of two options: 
+	//    Europian call option (Party B), and
+	//    Down-and-In option (Party A)
 	double Simulator::determine_equity_amount(double lps, bool knocked_in){
 		double performance;
 		// Party A pays to party B if knock-in event hasn't happened

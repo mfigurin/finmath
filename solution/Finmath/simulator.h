@@ -110,22 +110,24 @@ namespace finmath {
 		double short_interest_rate_;
 		int sample_count_;  // number of simulations. Default value is 10000
 
-		// Debug options
-		bool jump_to_final_date_;	
-		bool check_knock_in_event_;
-		int stored_iteration_index_;
-		std::vector<std::vector<double>> stored_iteration_data_;
-		std::string data_file_name_;
-
 		double currency_rate(std::string currency1, std::string currency2, double time);
 		double number_of_periods(void);
 		double least_performing_share(std::vector<Share>& basket);
 		double equity_amount_sample(int* steps_done, bool store_data);
 		double determine_equity_amount(double price, bool knocked_in);
 		
+		// Debugging properties and functions
+
+		bool jump_to_final_date_;	
+		bool check_knock_in_event_;
+		int stored_iteration_index_;
+		std::vector<std::vector<double>> stored_iteration_data_;
+		std::string data_file_name_;
+
+		// Writes one iteration data to .csv file
 		void write_iteration_data();
 
-		// This function prints the Simulator instance properties.
+		// Prints the Simulator instance properties.
 		// Use the following statement to print the properties to console:
 		//
 		//    std::cout << sim 
