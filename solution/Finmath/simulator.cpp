@@ -7,18 +7,15 @@ using namespace finmath;
 
 namespace finmath {
 
-	NormalDistribution::NormalDistribution(double mean, double stdev)
-	{	
-		// See http://www.cplusplus.com/reference/random/normal_distribution/
-		std::default_random_engine generator;
-		//std::mt19937 generator(rd());
-		std::normal_distribution<double> distribution(mean, stdev);
-		generator_ = generator;
-		distribution_ = distribution;
+	NormalDistribution::NormalDistribution(double mean, double stddev, int seed) {	
+		setup(mean, stddev, seed); 
 	}
-
-	NormalDistribution::NormalDistribution() {
-		NormalDistribution(0.0, 1.0);
+	NormalDistribution::NormalDistribution(int seed) {
+		setup(0.0, 1.0, seed);
+	}
+	void NormalDistribution::setup(double mean, double stddev, int seed) {
+		generator_ = seed != NULL ? std::default_random_engine((unsigned int)seed) : std::default_random_engine();
+		distribution_ = std::normal_distribution<double>(mean, stddev);
 	}
 
 	double NormalDistribution::nextValue() {
