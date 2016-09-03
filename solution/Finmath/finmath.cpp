@@ -36,4 +36,3 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	std::cout << "Present value: " << sim.simulate_present_value() << std::endl;	
 }
-
