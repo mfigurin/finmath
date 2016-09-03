@@ -103,7 +103,7 @@ double Simulator::determine_equity_amount(double lps, bool knocked_in){
 	return notional_amount_ * performance;
 }
 
-double Simulator::equity_amount_sample(int* steps_done){
+double Simulator::equity_amount_sample(int* performed_steps_count){
 
 	Sample::CalendarItems steps = calendar_.get_calendar_items();
 
@@ -126,20 +126,19 @@ double Simulator::equity_amount_sample(int* steps_done){
 		lps = least_performing_share (basket_);		
 		knocked_in |= lps < knock_in_percentage_;
 	}
-	*steps_done = i;
-	//return determine_equity_amount(lps, knocked_in) / currency_rate("USD", "HKD", period);
+	*performed_steps_count = i;
 	return determine_equity_amount(lps, knocked_in);
 }
 
 double Simulator::equity_amount(void){
 	double sum = 0;
 	for ( int i = 0; i < sample_count_; i++){
-		int steps_done;
-		double simulated_equity_amount = equity_amount_sample(&steps_done);
+		int performed_steps_count;
+		double simulated_equity_amount = equity_amount_sample(&performed_steps_count);
 		sum += simulated_equity_amount;
 		std::cout << 
 			"iteration:" << std::setw(7) << std::left << i << 
-			"steps:" << std::setw(6) << std::left << steps_done << 
+			"steps:" << std::setw(6) << std::left << performed_steps_count << 
 			"entity amount:" << simulated_equity_amount <<  std::endl;
 	}
 	return sum / sample_count_;
