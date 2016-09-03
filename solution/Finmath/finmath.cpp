@@ -12,9 +12,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	basket.push_back(Share("003_HK", "HKD", 19.2590, 0.03, 0.2));
 
 	CorrelationMatrix matrix(3);
-	matrix.set(0,1, 0.35);
-	matrix.set(0,2, -0.4);
-	matrix.set(1,2, 0.1);
+	matrix.set_correlation(0,1, 0.35);
+	matrix.set_correlation(0,2, -0.4);
+	matrix.set_correlation(1,2, 0.1);
 
 	tm trade_date;
 	tm final_date;

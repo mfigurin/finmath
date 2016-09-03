@@ -52,7 +52,7 @@ namespace finmath {
 	class CorrelationMatrix : public Matrix {
 	public:
 		CorrelationMatrix( unsigned int size, double fill = 0);		
-		void set(unsigned int row, unsigned int col, double value);
+		void set_correlation(unsigned int row, unsigned int col, double value);
 	};
 }
 

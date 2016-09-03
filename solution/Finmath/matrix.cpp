@@ -69,7 +69,7 @@ namespace finmath {
 			(*this)(i,i) = 1.0;
 	}
 
-	void CorrelationMatrix::set(unsigned int row, unsigned int col, double value) {
+	void CorrelationMatrix::set_correlation(unsigned int row, unsigned int col, double value) {
 		(*this)(row,col) = value;
 		(*this)(col,row) = value;
 	}

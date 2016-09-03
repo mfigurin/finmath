@@ -44,7 +44,7 @@ namespace FinmathUnitTest
 		TEST_METHOD(CorrelationMatrixTest1)
 		{
 			finmath::CorrelationMatrix corr(3);
-			corr.set(0, 1, 0.5);
+			corr.set_correlation(0, 1, 0.5);
 			Assert::AreEqual( 3, (int) corr.rows());
 			Assert::AreEqual( 3, (int) corr.cols());
 			Assert::AreEqual( 1.0, corr(1,1));
@@ -55,9 +55,9 @@ namespace FinmathUnitTest
 		TEST_METHOD(CorrelationMatrixTest2)
 		{
 			finmath::CorrelationMatrix corr(3);
-			corr.set( 0, 1, 0.35 );
-			corr.set( 0, 2, -0.4 );
-			corr.set( 1, 2, 0.1 );
+			corr.set_correlation( 0, 1, 0.35 );
+			corr.set_correlation( 0, 2, -0.4 );
+			corr.set_correlation( 1, 2, 0.1 );
 			finmath::Matrix choleskyUpper = corr.cholesky_decomposition().transpose();
 
 			//reduced to float
