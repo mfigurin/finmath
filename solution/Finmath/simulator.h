@@ -15,6 +15,7 @@
 using namespace finmath;
 
 namespace finmath {
+
 	class RandomGenerator
 	{
 	public:
@@ -25,10 +26,11 @@ namespace finmath {
 	{
 		std::default_random_engine generator_;
 		std::normal_distribution<double> distribution_;
+		void setup(double, double, int); 
 
 	public: 
-		NormalDistribution();
-		NormalDistribution(double mean, double stdev);
+		NormalDistribution(int seed = NULL);
+		NormalDistribution(double mean, double stdev, int seed = NULL);
 
 		double nextValue();
 	};
