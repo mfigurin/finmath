@@ -11,24 +11,24 @@ namespace Sample {
 	class Matrix {
 
 	protected:
-		std::vector<std::vector<double>> _matrix;
+		std::vector<std::vector<double>> matrix_;
 
 	public:
 
 		Matrix( int rows, int cols, double fill = 0 );
 		Matrix( const Matrix& matrix );
 
-		int inline rows() const { return _matrix.size(); }
-		int inline cols() const { return _matrix[0].size(); }
+		int inline rows() const { return matrix_.size(); }
+		int inline cols() const { return matrix_[0].size(); }
 
 		double inline operator() ( int row, int col ) const {
 			assert( row >= 0 && col >= 0 && row < rows() && col < cols());
-			return _matrix.at(row).at(col);
+			return matrix_.at(row).at(col);
 		}
 
 		double inline &operator() ( int row, int col ) {
 			assert( row >= 0 && col >= 0 && row < rows() && col < cols());
-			return _matrix.at(row).at(col);
+			return matrix_.at(row).at(col);
 		}
 
 		// Vector index operators

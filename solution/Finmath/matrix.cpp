@@ -5,11 +5,11 @@ namespace Sample {
 
 	Matrix::Matrix( int rows, int cols, double fill){
 		assert( rows > 0 && cols > 0 );
-		_matrix = std::vector<std::vector<double>>( rows, std::vector<double>(cols, fill));
+		matrix_ = std::vector<std::vector<double>>( rows, std::vector<double>(cols, fill));
 	}
 
 	Matrix::Matrix( const Matrix& matrix ) {
-		_matrix = matrix._matrix;
+		matrix_ = matrix.matrix_;
 	}
 
 	Matrix Matrix::operator* ( const Matrix& matrix ) {

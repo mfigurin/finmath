@@ -22,8 +22,8 @@ namespace Sample {
 
 	class NormalDistribution : public RandomGenerator
 	{
-		std::default_random_engine _generator;
-		std::normal_distribution<double> _distribution;
+		std::default_random_engine generator_;
+		std::normal_distribution<double> distribution_;
 
 	public: 
 		NormalDistribution();
@@ -35,50 +35,50 @@ namespace Sample {
 
 class CorrelationGenerator 
 {
-	Sample::CorrelationMatrix& correlation_matrix;
-	Sample::RandomGenerator& generator;
-	Sample::Matrix distribution;
+	Sample::CorrelationMatrix& correlation_matrix_;
+	Sample::RandomGenerator& generator_;
+	Sample::Matrix distribution_;
 
 public:
 	CorrelationGenerator(Sample::CorrelationMatrix& matrix, Sample::RandomGenerator& generator = Sample::NormalDistribution());
-	void next_sample();
+	void next_sample(void);
 	double wiener(int index);
 };
 
 class Share
 {
+	std::string name_;
+	std::string currency_;
+	double initial_price_;
+	double current_price_;
+
 	// volatility
-	double sigma;
-	// mu - sigma*sigma/2
-	double nu;
+	double sigma_;
+	// mu - sigma_*sigma_/2
+	double nu_;
 
 public:
-	std::string name;
-	std::string currency;
-	double initial_price;
-	double current_price;
 
-	Share (std::string name, std::string currency, double initial_price, double drift, double volatility);
-	Share( const Share& share );
+	Share(std::string name, std::string currency, double initial_price, double drift, double volatility);
+	Share(const Share& share );
 	~Share(void);
 
 	void update_current_price(double time, double wiener_process);
+
+	double inline performance_level(void) const {
+		return current_price_ / initial_price_;
+	}
 };
 
 class Simulator
 {
-	Sample::ContractCalendar& calendar;
-	double notional_amount;
-	std::vector<Share>& basket;
-	CorrelationGenerator& correlation_generator;
-	double knock_in_percentage;
-	int sample_count;
-	double short_interest_rate;
-
-	// debug info
-	int steps_done;
-	double simulated_equity_amount;
-
+	Sample::ContractCalendar& calendar_;
+	double notional_amount_;
+	std::vector<Share>& basket_;
+	CorrelationGenerator& correlation_generator_;
+	double knock_in_percentage_;
+	int sample_count_;
+	double short_interest_rate_;
 
 public:
 	Simulator(Sample::ContractCalendar& calendar, double notional_amount, double short_interest_rate, std::vector<Share>& basket, double knock_in_percentage, CorrelationGenerator& correlation_generator);
@@ -88,7 +88,7 @@ public:
 	double currency_rate(std::string currency1, std::string currency2, double time);
 	double least_performing_share(std::vector<Share>& basket);
 	double determine_equity_amount(double price, bool knocked_in);
-	double equity_amount_sample();
+	double equity_amount_sample(int* steps_done);
 	double equity_amount(void);
 	double number_of_periods(void);
 	double present_value(void);
