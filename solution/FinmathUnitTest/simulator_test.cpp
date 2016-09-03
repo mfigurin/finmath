@@ -18,18 +18,18 @@ namespace FinmathUnitTest
 			basket[1] = Share("002_HK", "HKD", 17.1770, 0.03, 0.2);
 			basket[2] = Share("003_HK", "HKD", 19.2590, 0.03, 0.2);
 
-			Sample::CorrelationMatrix matrix(3);
+			finmath::CorrelationMatrix matrix(3);
 			matrix.set(0,1, 0.35);
 			matrix.set(0,2, -0.4);
 			matrix.set(1,2, 0.1);
 
 			tm trade_date;
 			tm final_date;
-			Sample::DTUtils::set_tm_fields(&trade_date, 2016, 1, 25);
-			Sample::DTUtils::set_tm_fields(&final_date, 2019, 1, 24);
+			finmath::DTUtils::set_tm_fields(&trade_date, 2016, 1, 25);
+			finmath::DTUtils::set_tm_fields(&final_date, 2019, 1, 24);
 
-			Sample::ContractCalendar calendar(Sample::CalendarMode::CALENDAR_DAYS, trade_date, final_date);
-			CorrelationGenerator correlation_generator(matrix, Sample::NormalDistribution());
+			finmath::ContractCalendar calendar(finmath::CalendarMode::CALENDAR_DAYS, trade_date, final_date);
+			CorrelationGenerator correlation_generator(matrix, finmath::NormalDistribution());
 
 			Simulator sim(calendar, 400.00, 0.03, basket, 0.72, correlation_generator);
 			double present_value = sim.present_value();

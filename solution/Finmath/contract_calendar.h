@@ -3,7 +3,7 @@
 #include <list>
 #include <ctime>
 
-namespace Sample {
+namespace finmath {
 
 	class DTUtils
 	{

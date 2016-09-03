@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "matrix.h"
 
-namespace Sample {
+namespace finmath {
 
 	Matrix::Matrix( int rows, int cols, double fill){
 		assert( rows > 0 && cols > 0 );

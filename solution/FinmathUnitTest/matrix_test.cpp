@@ -13,9 +13,9 @@ namespace FinmathUnitTest
 
 		TEST_METHOD(MatrixTest1)
 		{
-			Sample::Matrix matrix1(1,3,1.0);
-			Sample::Matrix matrix2(3,3,1.0);
-			Sample::Matrix result = matrix1*matrix2;
+			finmath::Matrix matrix1(1,3,1.0);
+			finmath::Matrix matrix2(3,3,1.0);
+			finmath::Matrix result = matrix1*matrix2;
 
 			Assert::AreEqual( (int) result.rows(), 1);
 			Assert::AreEqual( (int) result.cols(), 3);
@@ -29,9 +29,9 @@ namespace FinmathUnitTest
 
 		TEST_METHOD(VectorTest1)
 		{
-			Sample::Matrix vector(3,1,0.5);
-			Sample::Matrix matrix(3,3,1);
-			Sample::Matrix result = matrix * vector;
+			finmath::Matrix vector(3,1,0.5);
+			finmath::Matrix matrix(3,3,1);
+			finmath::Matrix result = matrix * vector;
 
 			Assert::AreEqual( (int) result.rows(), 3);
 			Assert::AreEqual( (int) result.cols(), 1);
@@ -43,7 +43,7 @@ namespace FinmathUnitTest
 
 		TEST_METHOD(CorrelationMatrixTest1)
 		{
-			Sample::CorrelationMatrix corr(3);
+			finmath::CorrelationMatrix corr(3);
 			corr.set(0, 1, 0.5);
 			Assert::AreEqual( 3, (int) corr.rows());
 			Assert::AreEqual( 3, (int) corr.cols());
@@ -54,11 +54,11 @@ namespace FinmathUnitTest
 
 		TEST_METHOD(CorrelationMatrixTest2)
 		{
-			Sample::CorrelationMatrix corr(3);
+			finmath::CorrelationMatrix corr(3);
 			corr.set( 0, 1, 0.35 );
 			corr.set( 0, 2, -0.4 );
 			corr.set( 1, 2, 0.1 );
-			Sample::Matrix choleskyUpper = corr.cholesky_decomposition().transpose();
+			finmath::Matrix choleskyUpper = corr.cholesky_decomposition().transpose();
 
 			//reduced to float
 			#pragma warning(disable : 4305)

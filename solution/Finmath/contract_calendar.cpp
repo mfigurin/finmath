@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "contract_calendar.h"
 
-namespace Sample {
+namespace finmath {
 
 	ContractCalendar::ContractCalendar(CalendarMode mode, tm start_time, tm end_time) : start_time_(start_time), end_time_(end_time) {
 		if (mktime(&start_time_) >= mktime(&end_time_))

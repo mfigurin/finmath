@@ -2,7 +2,9 @@
 #include <random>
 #include "simulator.h"
 
-namespace Sample {
+using namespace finmath;
+
+namespace finmath {
 
 	NormalDistribution::NormalDistribution(double mean, double stdev)
 	{	
@@ -23,10 +25,11 @@ namespace Sample {
 	}
 }
 
-CorrelationGenerator::CorrelationGenerator(Sample::CorrelationMatrix& matrix, Sample::RandomGenerator& generator) : 
+CorrelationGenerator::CorrelationGenerator(CorrelationMatrix& matrix, RandomGenerator& generator) : 
 	correlation_matrix_(matrix), 
 	generator_(generator),
-	distribution_(Sample::Matrix( matrix.rows(), 1)) {
+	distribution_(Matrix( matrix.rows(), 1)) 
+{
 		next_sample();
 };
 
@@ -63,7 +66,7 @@ void Share::update_current_price(double time, double wiener_process){
 	current_price_ = initial_price_ * exp(nu_ * time + sigma_ * wiener_process);
 }
 
-Simulator::Simulator(Sample::ContractCalendar& calendar, double notional_amount, double short_interest_rate, std::vector<Share> &basket, double knock_in_percentage, CorrelationGenerator& correlation_generator) : 
+Simulator::Simulator(ContractCalendar& calendar, double notional_amount, double short_interest_rate, std::vector<Share> &basket, double knock_in_percentage, CorrelationGenerator& correlation_generator) : 
 	calendar_(calendar),
 	notional_amount_(notional_amount),
 	short_interest_rate_(short_interest_rate),
@@ -108,13 +111,13 @@ double Simulator::determine_equity_amount(double lps, bool knocked_in){
 
 double Simulator::equity_amount_sample(int* performed_steps_count){
 
-	Sample::CalendarItems steps = calendar_.get_calendar_items();
+	CalendarItems steps = calendar_.get_calendar_items();
 
 	bool knocked_in = false;
 	bool knocked_in_processed = false;
 	double lps;
 	int i = 0;
-	for (std::list<Sample::TimePeriodItem*>::iterator it = steps.begin(); it != steps.end() && !knocked_in_processed; ++it, i++){		
+	for (std::list<TimePeriodItem*>::iterator it = steps.begin(); it != steps.end() && !knocked_in_processed; ++it, i++){		
 		double time = (*it)->deltaT;
 
 		// jump to final date if the knock-in event happened

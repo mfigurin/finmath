@@ -12,7 +12,9 @@
 #include "matrix.h"
 #include "contract_calendar.h"
 
-namespace Sample {
+using namespace finmath;
+
+namespace finmath {
 	class RandomGenerator
 	{
 	public:
@@ -34,12 +36,12 @@ namespace Sample {
 
 class CorrelationGenerator 
 {
-	Sample::CorrelationMatrix& correlation_matrix_;
-	Sample::RandomGenerator& generator_;
-	Sample::Matrix distribution_;
+	CorrelationMatrix& correlation_matrix_;
+	RandomGenerator& generator_;
+	Matrix distribution_;
 
 public:
-	CorrelationGenerator(Sample::CorrelationMatrix& matrix, Sample::RandomGenerator& generator = Sample::NormalDistribution());
+	CorrelationGenerator(CorrelationMatrix& matrix, RandomGenerator& generator = NormalDistribution());
 	void next_sample(void);
 	double wiener(int index);
 };
@@ -71,7 +73,7 @@ public:
 
 class Simulator
 {
-	Sample::ContractCalendar& calendar_;
+	ContractCalendar& calendar_;
 	double notional_amount_;
 	std::vector<Share>& basket_;
 	CorrelationGenerator& correlation_generator_;
@@ -80,7 +82,7 @@ class Simulator
 	double short_interest_rate_;
 
 public:
-	Simulator(Sample::ContractCalendar& calendar, double notional_amount, double short_interest_rate, std::vector<Share>& basket, double knock_in_percentage, CorrelationGenerator& correlation_generator);
+	Simulator(ContractCalendar& calendar, double notional_amount, double short_interest_rate, std::vector<Share>& basket, double knock_in_percentage, CorrelationGenerator& correlation_generator);
 	~Simulator(void);
 
 	void set_sample_count(int count);

@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <vector>
 
-namespace Sample {
+namespace finmath {
 
 	class Matrix {
 
