@@ -5,7 +5,9 @@
 namespace finmath {
 
 	Matrix::Matrix( int rows, int cols, double fill){
-		assert( rows > 0 && cols > 0 );
+		if( rows < 1 || cols < 1 ) {
+			throw std::exception( "Invalid matrix size" );
+		}
 		matrix_ = std::vector<std::vector<double>>( rows, std::vector<double>(cols, fill));
 	}
 
@@ -14,7 +16,9 @@ namespace finmath {
 	}
 
 	Matrix Matrix::operator* ( const Matrix& matrix ) {
-		assert( cols() == matrix.rows());
+		if( cols() != matrix.rows()) {
+			throw std::exception( "Incompatible matrixes sizes for multiplication" );
+		}
 		Matrix mult( rows(), matrix.cols() );
 		for( int i = 0; i < mult.rows(); i++ ) {
 			for( int j  = 0; j < mult.cols(); j++ ) { 

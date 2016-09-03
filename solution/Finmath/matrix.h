@@ -2,7 +2,6 @@
 #pragma once
 
 #include <math.h>
-#include <assert.h>
 #include <vector>
 
 namespace finmath {
@@ -21,16 +20,14 @@ namespace finmath {
 		int inline cols() const { return matrix_[0].size(); }
 
 		double inline operator() ( int row, int col ) const {
-			assert( row >= 0 && col >= 0 && row < rows() && col < cols());
 			return matrix_.at(row).at(col);
 		}
 
 		double inline &operator() ( int row, int col ) {
-			assert( row >= 0 && col >= 0 && row < rows() && col < cols());
 			return matrix_.at(row).at(col);
 		}
 
-		// Vector index operators
+		// vector index operators
 		double inline operator() ( int index ) const {
 			if (cols() == 1 )
 				return (*this)(index,0);
