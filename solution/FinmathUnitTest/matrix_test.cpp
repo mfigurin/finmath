@@ -3,7 +3,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-#include "../finmath/Matrix.h"
+#include "../finmath/matrix.h"
 
 namespace FinmathUnitTest
 {

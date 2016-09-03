@@ -4,7 +4,6 @@
 #include <math.h>
 #include <assert.h>
 #include <vector>
-#include <exception>
 
 namespace Sample {
 
@@ -37,7 +36,7 @@ namespace Sample {
 				return (*this)(index,0);
 			else if (rows() == 1)
 				return (*this)(0,index);
-			assert( !"The matrix is not a vector" );
+			throw std::exception("The matrix is not a vector" );
 		}
 
 		double inline &operator() ( int index ) {
@@ -45,7 +44,7 @@ namespace Sample {
 				return (*this)(index,0);
 			else if (rows() == 1)
 				return (*this)(0,index);
-			assert( !"The matrix is not a vector" );
+			throw std::exception("The matrix is not a vector" );
 		}
 
 		Matrix operator* ( const Matrix& matrix );

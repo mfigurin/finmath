@@ -1,12 +1,9 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include <iostream>
-#include <string>
-#include <sstream>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-#include "../finmath/Simulator.h"
+#include "../finmath/simulator.h"
 
 namespace FinmathUnitTest
 {
@@ -16,16 +13,6 @@ namespace FinmathUnitTest
 		
 		TEST_METHOD(TestMethod1)
 		{
-			struct tm trade_date = {0};
-			trade_date.tm_year = 2016;
-			trade_date.tm_mon = 1;
-			trade_date.tm_mday = 25;
-
-			struct tm final_date = {0};
-			final_date.tm_year = 2019;
-			final_date.tm_mon = 1;
-			final_date.tm_mday = 25;
-
 			std::vector<Share> basket(3, Share("001_HK", "HKD", 17.4985, 0.03, 0.2));
 			basket[0] = Share("001_HK", "HKD", 17.4985, 0.03, 0.2);
 			basket[1] = Share("002_HK", "HKD", 17.1770, 0.03, 0.2);
@@ -36,7 +23,12 @@ namespace FinmathUnitTest
 			matrix.set(0,2, -0.4);
 			matrix.set(1,2, 0.1);
 
-			Sample::ContractCalendar calendar(Sample::CalendarMode::CALENDAR_DAYS, 2016, 1, 25, 2019, 1, 25);
+			tm trade_date;
+			tm final_date;
+			Sample::DTUtils::set_tm_fields(&trade_date, 2016, 1, 25);
+			Sample::DTUtils::set_tm_fields(&final_date, 2019, 1, 24);
+
+			Sample::ContractCalendar calendar(Sample::CalendarMode::CALENDAR_DAYS, trade_date, final_date);
 			CorrelationGenerator correlation_generator(matrix, Sample::NormalDistribution());
 
 			Simulator sim(calendar, 400.00, 0.03, basket, 0.72, correlation_generator);

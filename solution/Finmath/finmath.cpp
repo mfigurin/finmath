@@ -1,9 +1,6 @@
-#include <iostream>
-#include <string>
-#include <sstream>
 
 #include "stdafx.h"
-#include "Simulator.h"
+#include "simulator.h"
 
 int _tmain(int argc, _TCHAR* argv[])
 {

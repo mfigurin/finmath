@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <random>
-#include "Simulator.h"
+#include "simulator.h"
 
 namespace Sample {
 
@@ -79,11 +79,14 @@ void Simulator::set_sample_count(int count){
 	sample_count_ = count;
 }
 
-double Simulator::currency_rate(std::string currency1, std::string currency2, double time){
-	if ((currency1.compare("USD")==0) & (currency2.compare("HKD")==0))
-		return 7.76;
-	throw std::exception( "Unsupported currency" );
-}
+// currency conversion is not used in the test since the currency rate is constant and 
+// equity amounts are calculated in USD: $400.00 * percentage 
+
+//double Simulator::currency_rate(std::string currency1, std::string currency2, double time){
+//	if ((currency1.compare("USD")==0) & (currency2.compare("HKD")==0))
+//		return 7.76;
+//	throw std::exception( "Unsupported currency" );
+//}
 
 double Simulator::least_performing_share(std::vector<Share> &basket) {
 	std::vector<double> performance_level(basket_.size());

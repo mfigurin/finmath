@@ -71,7 +71,6 @@ namespace Sample {
 	class ContractCalendar 
 	{
 	public:
-		ContractCalendar(CalendarMode mode, int from_year, int from_month, int from_day, int to_year, int to_month, int to_day);
 		ContractCalendar(CalendarMode mode, tm start_time, tm end_time);
 		CalendarMode get_calendar_mode();
 		double get_contract_deltaT(void); 

@@ -1,5 +1,6 @@
+
 #include "stdafx.h"
-#include "Matrix.h"
+#include "matrix.h"
 
 namespace Sample {
 

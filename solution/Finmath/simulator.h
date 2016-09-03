@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <exception>
 #include <algorithm>
 #include <functional>
 #include <iostream>
@@ -10,7 +9,7 @@
 #include <iomanip>
 #include <random>
 
-#include "Matrix.h"
+#include "matrix.h"
 #include "contract_calendar.h"
 
 namespace Sample {
