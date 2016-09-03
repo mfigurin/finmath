@@ -87,6 +87,7 @@
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="test_utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dtutils_test.cpp" />
