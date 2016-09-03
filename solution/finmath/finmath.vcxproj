@@ -76,7 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <Text Include="read_me.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="contract_calendar.h" />

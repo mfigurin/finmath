@@ -14,7 +14,7 @@
     <ProjectGuid>{49A28B0F-F716-4A1B-8EFF-3DF7C74C2C85}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>FinmathUnitTest</RootNamespace>
-    <ProjectName>FinmathUnitTest1</ProjectName>
+    <ProjectName>FinmathUnitTest</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
