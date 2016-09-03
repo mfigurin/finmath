@@ -26,13 +26,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="DtutilsTest.cpp">
+    <ClCompile Include="dtutils_test.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="SimulatorTest.cpp">
+    <ClCompile Include="matrix_test.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="MatrixTest.cpp">
+    <ClCompile Include="simulator_test.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>

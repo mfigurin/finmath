@@ -3,7 +3,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-#include "../finmath/contractcalendar.h"
+#include "../finmath/contract_calendar.h"
 
 namespace FinmathUnitTest
 {

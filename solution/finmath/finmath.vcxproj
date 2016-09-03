@@ -79,17 +79,17 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="contractcalendar.h" />
-    <ClInclude Include="Matrix.h" />
-    <ClInclude Include="Simulator.h" />
+    <ClInclude Include="contract_calendar.h" />
+    <ClInclude Include="matrix.h" />
+    <ClInclude Include="simulator.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="contractcalendar.cpp" />
+    <ClCompile Include="contract_calendar.cpp" />
     <ClCompile Include="finmath.cpp" />
-    <ClCompile Include="Matrix.cpp" />
-    <ClCompile Include="Simulator.cpp" />
+    <ClCompile Include="matrix.cpp" />
+    <ClCompile Include="simulator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

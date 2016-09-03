@@ -2,17 +2,24 @@
 #include "ctime"
 #include <list>
 #include <exception>
-#include "contractcalendar.h"
+#include "contract_calendar.h"
 
 namespace Sample {
 
 	ContractCalendar::ContractCalendar(CalendarMode mode, int from_year, int from_month, int from_day, int to_year, int to_month, int to_day) {
 		DTUtils::get_local_time(&start_time_);
-		DTUtils::set_tm_fields(&start_time_, from_year, from_month, from_day, 0, 0, 0); 
+		DTUtils::set_tm_fields(&start_time_, from_year, from_month, from_day); 
 
 		DTUtils::get_local_time(&end_time_);
-		DTUtils::set_tm_fields(&end_time_, to_year, to_month, to_day, 0, 0, 0); 
+		DTUtils::set_tm_fields(&end_time_, to_year, to_month, to_day); 
 
+		if (mktime(&start_time_) >= mktime(&end_time_))
+			throw std::exception("Bad contract dates");
+
+		init_traiding_days_list(mode);
+	}
+
+	ContractCalendar::ContractCalendar(CalendarMode mode, tm start_time, tm end_time) : start_time_(start_time), end_time_(end_time) {
 		if (mktime(&start_time_) >= mktime(&end_time_))
 			throw std::exception("Bad contract dates");
 

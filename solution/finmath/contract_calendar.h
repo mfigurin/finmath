@@ -26,7 +26,7 @@ namespace Sample {
 			_localtime64_s(date, &long_time);
 		}
 
-		static void DTUtils::set_tm_fields(tm * date, int year, int month, int day, int hour, int min, int sec) {
+		static void DTUtils::set_tm_fields(tm * date, int year, int month, int day, int hour = 0, int min = 0, int sec = 0 ) {
 			date->tm_year = year - 1900;
 			date->tm_mon = month - 1;
 			date->tm_mday = day;
@@ -72,6 +72,7 @@ namespace Sample {
 	{
 	public:
 		ContractCalendar(CalendarMode mode, int from_year, int from_month, int from_day, int to_year, int to_month, int to_day);
+		ContractCalendar(CalendarMode mode, tm start_time, tm end_time);
 		CalendarMode get_calendar_mode();
 		double get_contract_deltaT(void); 
 		CalendarItems get_calendar_items();

@@ -75,6 +75,10 @@ Simulator::Simulator(Sample::ContractCalendar& calendar, double notional_amount,
 
 Simulator::~Simulator(void) {}
 
+void Simulator::set_sample_count(int count){
+	sample_count = count;
+}
+
 double Simulator::currency_rate(std::string currency1, std::string currency2, double time){
 	if ((currency1.compare("USD")==0) & (currency2.compare("HKD")==0))
 		return 7.76;
