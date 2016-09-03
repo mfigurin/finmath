@@ -4,7 +4,6 @@
 #include <ctime>
 
 namespace finmath {
-
 	class DTUtils
 	{
 	public:
