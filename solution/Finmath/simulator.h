@@ -162,8 +162,8 @@ namespace finmath {
 		// Call sim.jump_to_final_date(false) to turn off that optimization.
 		void jump_to_final_date(bool mode);
 
-		// Payments a party to pay can be suppressed.
-		// This feature should be used for debugging purpose only
+		// Payments to one party can be suppressed.
+		// This feature should be used for debugging purpose
 		void suppress_payments(bool suppress_party_A_payments, bool suppress_party_B_payments);
 	};
 }

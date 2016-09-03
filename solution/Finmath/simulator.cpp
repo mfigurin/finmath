@@ -127,7 +127,7 @@ namespace finmath {
 		// Party B pays to party A if knock-in event happened and the final LPS is less than 100%
 		else
 			performance = lps - 1.0;
-		if ( (performance > 0 && suppress_party_A_payments_) || (performance < 0 && suppress_party_B_payments_)){
+		if ( (performance > 0 && suppress_party_B_payments_) || (performance < 0 && suppress_party_A_payments_)){
 			performance = 0;
 		}
 		return notional_amount_ * performance;

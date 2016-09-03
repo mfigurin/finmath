@@ -19,7 +19,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	tm trade_date;
 	tm final_date;
 	DTUtils::set_tm_fields(&trade_date, 2016, 1, 25);
-	DTUtils::set_tm_fields(&final_date, 2019, 1, 24);
+	DTUtils::set_tm_fields(&final_date, 2019, 1, 25);
 
 	ContractCalendar calendar(CalendarMode::CALENDAR_DAYS, trade_date, final_date);
 	CorrelationGenerator correlationGenerator(matrix, NormalDistribution());
@@ -29,12 +29,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::cout << sim;
 
 	sim.set_sample_count(100);
-	sim.suppress_payments(false, true);
+	//sim.suppress_payments(false, true);
 	//sim.save_iteration_data(0, "data.csv");
 	//sim.check_knock_in_event(false);
 	//sim.jump_to_final_date(false);
 
-	std::cout << "Present value: " << sim.simulate_present_value() << std::endl;
-	
+	std::cout << "Present value: " << sim.simulate_present_value() << std::endl;	
 }
 
