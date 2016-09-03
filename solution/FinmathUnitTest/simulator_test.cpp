@@ -37,7 +37,7 @@ namespace FinmathUnitTest
 			Simulator sim(calendar, 400.00, 0.03, basket, 0.72, correlation_generator);
 			double present_value = sim.simulate_present_value();
 			std::cout << "Present value: " << present_value;
-			sim.save_iteration_data("sim.txt");
+			sim.save_iteration_data(0,"sim.txt");
 		}
 
 		TEST_METHOD(CheckEquityAmount)
@@ -70,7 +70,6 @@ namespace FinmathUnitTest
 			double notional_amount = 400.0;
 			Simulator sim(calendar, notional_amount, 0.03, basket, 0.72, correlation_generator);
 			sim.set_sample_count(10);
-			sim.store_iteration(0);
    		    double equity_amount = sim.simulate_equity_amount();
 			Assert::AreEqual(equity_amount, notional_amount * std::max(exp(drift - volatility*volatility/2.0) - 1.0, 0.0));
 
