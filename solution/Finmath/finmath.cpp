@@ -29,11 +29,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::cout << sim;
 
 	sim.set_sample_count(100);
-	sim.store_iteration(0);
+	//sim.save_iteration_data(0, "data.csv");
 	//sim.check_knock_in_event(false);
-	sim.jump_to_final_date(false);
+	//sim.jump_to_final_date(false);
 
 	std::cout << "Present value: " << sim.simulate_present_value() << std::endl;
-	sim.save_iteration_data("data.csv");
+	
 }
 
