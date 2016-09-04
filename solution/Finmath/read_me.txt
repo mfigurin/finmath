@@ -1,7 +1,5 @@
-﻿
-This project implements a perticular case of Monte Carlo simulation of stock option prices.
-The source code can be easily extended to the more generic use cases.
-C++ standard libraries have been used only (no third-party libraries have been used).
+﻿This project implements a particular case of the Monte Carlo simulation of the stock option prices.
+The project uses C++ standard libraries, no third-party libraries have been used.
 
 finmath.cpp
 
