@@ -22,7 +22,6 @@ namespace finmath {
 		double inline operator() ( int row, int col ) const {
 			return matrix_.at(row).at(col);
 		}
-
 		double inline &operator() ( int row, int col ) {
 			return matrix_.at(row).at(col);
 		}
@@ -44,9 +43,9 @@ namespace finmath {
 			throw std::exception("The matrix is not a vector" );
 		}
 
-		Matrix operator* ( const Matrix& matrix );
-		Matrix transpose(void);
-		Matrix cholesky_decomposition();			
+		Matrix operator* ( const Matrix& matrix ) const;
+		Matrix transpose(void) const;
+		Matrix cholesky_decomposition() const;			
 	};
 
 	class CorrelationMatrix : public Matrix {

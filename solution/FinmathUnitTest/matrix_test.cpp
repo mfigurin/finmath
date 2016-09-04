@@ -9,36 +9,55 @@ namespace FinmathUnitTest
 {
 	TEST_CLASS(Matrix2Test)
 	{
+
 	public:
+
+		class Matrix4Test : public finmath::Matrix  {
+
+			public:
+			Matrix4Test( int rows, int cols, float fill) : Matrix( rows, cols, (double)fill ) {
+			}
+			Matrix4Test( int rows, int cols, float* fill) : Matrix( rows, cols ) {
+				for( int i = 0; i < rows; i++ ) {
+					for( int j  = 0; j < cols; j++ ) { 
+						(*this)(i,j) = (double)*fill++;
+					}
+				}
+			}
+
+			bool operator== ( const Matrix& matrix ) const {
+				if( cols() != matrix.cols() || rows() != matrix.rows() ) {
+					return false; 
+				}
+				//reduced to float
+				#pragma warning(disable : 4305)
+				for( int i = 0; i < rows(); i++ ) {
+					for( int j  = 0; j < cols(); j++ ) { 
+						if( (float)(*this)(i,j) != (float)matrix(i,j)) {
+							return false;
+						}
+					}
+				}
+				return true;
+			}
+		};
+
+
 
 		TEST_METHOD(MatrixTest1)
 		{
 			finmath::Matrix matrix1(1,3,1.0);
 			finmath::Matrix matrix2(3,3,1.0);
 			finmath::Matrix result = matrix1*matrix2;
-
-			Assert::AreEqual( (int) result.rows(), 1);
-			Assert::AreEqual( (int) result.cols(), 3);
-
-			for( int i  = 0; i < result.rows(); i++ ) {
-				for( int j = 0; j < result.cols(); j++ ) {
-					Assert::AreEqual( result(i,j), 3.0);
-				}
-			}
+			Assert::AreEqual( Matrix4Test(1,3, 3.0) == result, true );
 		}
 
 		TEST_METHOD(VectorTest1)
 		{
-			finmath::Matrix vector(3,1,0.5);
-			finmath::Matrix matrix(3,3,1);
+			finmath::Matrix vector(3,1, 0.5);
+			finmath::Matrix matrix(3,3, 1);
 			finmath::Matrix result = matrix * vector;
-
-			Assert::AreEqual( (int) result.rows(), 3);
-			Assert::AreEqual( (int) result.cols(), 1);
-
-			for( int i  = 0; i < result.rows(); i++ ) {
-				Assert::AreEqual( result(i), 1.5);
-			}
+			Assert::AreEqual( Matrix4Test(3,1, 1.5) == result, true );
 		}
 
 		TEST_METHOD(CorrelationMatrixTest1)
@@ -68,11 +87,8 @@ namespace FinmathUnitTest
 				{ 0.00000000, 0.00000000, 0.87997669 }
 			};
 
-			for( int i  = 0; i < 3; i++ ) {
-				for( int j = 0; j < 3; j++ ) {
-					Assert::AreEqual( (float)choleskyUpper(i,j), expected_results[i][j]);
-				}
-			}
+			Matrix4Test expectedMatrix( 3,3, (float*)&expected_results );
+			Assert::IsTrue( expectedMatrix == choleskyUpper);
 		}
 
 	};

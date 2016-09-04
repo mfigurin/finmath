@@ -15,7 +15,7 @@ namespace finmath {
 		matrix_ = matrix.matrix_;
 	}
 
-	Matrix Matrix::operator* ( const Matrix& matrix ) {
+	Matrix Matrix::operator* ( const Matrix& matrix ) const {
 		if( cols() != matrix.rows()) {
 			throw std::exception( "Incompatible matrixes sizes for multiplication" );
 		}
@@ -30,7 +30,7 @@ namespace finmath {
 		return mult;
 	}
 
-	Matrix Matrix::transpose(void) 
+	Matrix Matrix::transpose(void) const
 	{
 		Matrix transposed( cols(), rows() );
 		for (int i = 0; i < rows(); i++) {
@@ -40,7 +40,7 @@ namespace finmath {
 		return transposed;
 	}
 
-	Matrix Matrix::cholesky_decomposition() 
+	Matrix Matrix::cholesky_decomposition() const
 	{
 		Matrix l(rows(),cols());
 
