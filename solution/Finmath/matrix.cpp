@@ -11,6 +11,34 @@ namespace finmath {
 		matrix_ = std::vector<std::vector<double>>( rows, std::vector<double>(cols, fill));
 	}
 
+	Matrix::Matrix( int rows, int cols, double* data){
+		if( rows < 1 || cols < 1 ) {
+			throw std::exception( "Invalid matrix size" );
+		}
+		matrix_ = std::vector<std::vector<double>>( rows, std::vector<double>(cols, 0));
+		for( int i = 0; i < rows; i++ ) {
+			for( int j  = 0; j < cols; j++ ) { 
+				(*this)(i,j) = *data++;
+			}
+		}
+	}
+
+	bool Matrix::operator== ( const Matrix& matrix ) const {
+		if( cols() != matrix.cols() || rows() != matrix.rows() ) {
+			return false; 
+		}
+		//reduced to float
+		#pragma warning(disable : 4305)
+		for( int i = 0; i < rows(); i++ ) {
+			for( int j  = 0; j < cols(); j++ ) { 
+				if( (float)(*this)(i,j) != (float)matrix(i,j)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	Matrix::Matrix( const Matrix& matrix ) {
 		matrix_ = matrix.matrix_;
 	}

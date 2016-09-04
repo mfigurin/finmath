@@ -13,7 +13,8 @@ namespace finmath {
 
 	public:
 
-		Matrix( int rows, int cols, double fill = 0 );
+		Matrix( int rows, int cols, double fill = 0);
+		Matrix( int rows, int cols, double* data);
 		Matrix( const Matrix& matrix );
 
 		int inline rows() const { return matrix_.size(); }
@@ -44,6 +45,7 @@ namespace finmath {
 		}
 
 		Matrix operator* ( const Matrix& matrix ) const;
+		bool operator== ( const Matrix& matrix ) const;
 		Matrix transpose(void) const;
 		Matrix cholesky_decomposition() const;			
 	};
