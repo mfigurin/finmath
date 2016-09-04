@@ -250,6 +250,7 @@ namespace finmath {
 
 	std::ostream& operator<<(std::ostream &strm, const Simulator &sim) {
 		strm << 
+			sim.calendar_ <<
 			"notional amount:" << sim.notional_amount_ << std::endl <<
 			"short interest rate:" << sim.short_interest_rate_ << std::endl <<
 			"sample count:" << sim.sample_count_ << std::endl <<
