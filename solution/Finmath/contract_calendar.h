@@ -54,7 +54,7 @@ namespace finmath {
 	public:
 		
 		// ContractCalendar constructor
-		//	mode		: defines the suimulation time delta calculation
+		//	mode		: defines the simulation time delta calculation
 		//					CalendarMode.TRADING_DAYS: the time delta is n/252, where n is the simulation step number
 		//					CalendarMode.CALENDAR_DAYS: the time delta is n/365, where n is the simulation step number
 		//	start_time	: the contract start time
@@ -102,13 +102,13 @@ namespace finmath {
 		// the contract trading days number
 		int trading_days_number_;
 		
-		//Defines the way for the simulation steps time delta calculation: n/252 or n/365, 
+		//defines the way for the simulation steps time delta calculation: n/252 or n/365, 
 		CalendarMode mode_;
 
 		//the whole contract time delta in terms of  (contract trading days number) / N, where N is: 252 or 365  
 		double contract_deltaT_;
 
-		//this is tm type info about contract time span  
+		//timei nfo about contract time span  
 		struct tm start_time_;
 		struct tm end_time_;
 
