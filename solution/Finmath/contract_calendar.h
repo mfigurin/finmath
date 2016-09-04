@@ -7,11 +7,6 @@ namespace finmath {
 	class DTUtils
 	{
 	public:
-		static int DTUtils::day_of_week(int y, int m, int d) 	{
-			int t[] = { 0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 };
-			y -= m < 3;
-			return (y + y / 4 - y / 100 + y / 400 + t[m - 1] + d) % 7;
-		}
 
 		static void DTUtils::get_local_time(tm * date) { 
 			__time64_t long_time;
@@ -48,14 +43,14 @@ namespace finmath {
 			contract_day_number_ = contract_day_number;
 			traiding_day_number_ = traiding_day_number;
 			time_ = time;
-			deltaT = delta;
+			deltaT_ = delta;
 		};
 		~CalendarItem();
 
 		int contract_day_number_ ;
 		int traiding_day_number_ ;
 		tm time_;
-		double deltaT;
+		double deltaT_;
 
 	};
 

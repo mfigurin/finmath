@@ -146,7 +146,7 @@ namespace finmath {
 		double lps;
 		int i = 0;
 		for (std::list<CalendarItem*>::iterator it = steps.begin(); it != steps.end() && !knocked_in_processed; ++it, i++){		
-			double time = (*it)->deltaT;
+			double time = (*it)->deltaT_;
 
 			// jump to final date if the knock-in event has happened
 			if (knocked_in && jump_to_final_date_){
