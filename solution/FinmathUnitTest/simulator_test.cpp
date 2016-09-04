@@ -14,6 +14,60 @@ namespace FinmathUnitTest
 	{
 	public:
 
+		TEST_METHOD(CheckCorrelationGenerator)
+        {
+            int cnt = 100000;
+            NormalDistribution normal_distribution;
+
+            finmath::CorrelationMatrix corr(3);
+            corr.set_correlation( 0, 1, 0.35 );
+            corr.set_correlation( 0, 2, -0.4 );
+            corr.set_correlation( 1, 2, 0.1 );
+
+            finmath::Matrix rnd_generated(3, cnt);
+            finmath::CorrelationGenerator generator(corr, NormalDistribution());
+
+            std::vector<double> average(3, 0.);
+            for(int j=0; j<cnt; ++j) {
+                for(int i=0; i<3; ++i) {
+                    rnd_generated(i,j) = generator.wiener(i);
+                    average[i] += rnd_generated(i,j);
+                }
+                generator.next_sample();
+            }
+
+            for(int i=0; i<3; ++i) {
+                average[i] /= cnt;
+            }
+
+            double cov01 = 0, cov02 = 0, cov12 = 0;
+
+            std::vector<double> sigma(3,0);
+            for(int i=0; i<cnt; ++i) {
+                double diff0 = rnd_generated(0,i) - average[0];
+                double diff1 = rnd_generated(1,i) - average[1];
+                double diff2 = rnd_generated(2,i) - average[2];
+
+                cov01 += diff0 * diff1;
+                cov02 += diff0 * diff2;
+                cov12 += diff1 * diff2;
+
+                sigma[0] += diff0*diff0;
+                sigma[1] += diff1*diff1;
+                sigma[2] += diff2*diff2;
+            }
+
+            double cor01 = cov01/(sqrt(sigma[0])*sqrt(sigma[1]));
+            double cor02 = cov02/(sqrt(sigma[0])*sqrt(sigma[2]));
+            double cor12 = cov12/(sqrt(sigma[1])*sqrt(sigma[2]));
+
+			Assert::AreEqual( abs( cor01 - (0.35) ) <= 0.01, true );
+			Assert::AreEqual( abs( cor02 - (-0.4) ) <= 0.01, true );
+			Assert::AreEqual( abs( cor12 - (0.1) ) <= 0.01, true );
+
+        }
+
+
 		TEST_METHOD(CheckEquityAmount)
 		{
 			double initial_price_0 = 17.4985;

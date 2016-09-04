@@ -45,6 +45,7 @@ namespace finmath {
 	class CorrelationGenerator 
 	{
 		CorrelationMatrix& correlation_matrix_;
+		Matrix decomposed_correlation_matrix_;
 		RandomGenerator& generator_;
 		Matrix distribution_;
 
