@@ -90,7 +90,7 @@
     <ClInclude Include="test_utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dtutils_test.cpp" />
+    <ClCompile Include="contract_calendar_test.cpp" />
     <ClCompile Include="matrix_test.cpp" />
     <ClCompile Include="simulator_test.cpp" />
     <ClCompile Include="stdafx.cpp">
