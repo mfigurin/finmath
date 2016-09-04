@@ -10,25 +10,10 @@ namespace FinmathUnitTest
 	TEST_CLASS(DtutilsTest)
 	{
 	public:
-
-		TEST_METHOD(day_of_week)
-		{
-			int day_of_week = finmath::DTUtils::day_of_week(2000, 1, 1);
-			Assert::AreEqual(6, day_of_week);
-
-			day_of_week = finmath::DTUtils::day_of_week(2016, 9, 2);
-			Assert::AreEqual(5, day_of_week);
-
-			day_of_week = finmath::DTUtils::day_of_week(2020, 12, 31);
-			Assert::AreEqual(4, day_of_week);
-
-			day_of_week = finmath::DTUtils::day_of_week(2020, 2, 29);
-			Assert::AreEqual(6, day_of_week);
-		}
-
+		
 		TEST_METHOD(is_traiding_day)
 		{
-			bool isTradingDay = finmath::DTUtils::is_traiding_day(2016, 9, 1);
+			/*bool isTradingDay = finmath::DTUtils::is_traiding_day(2016, 9, 1);
 			Assert::AreEqual(true, isTradingDay);
 
 			isTradingDay = finmath::DTUtils::is_traiding_day(2016, 9, 4);
@@ -38,7 +23,7 @@ namespace FinmathUnitTest
 			Assert::AreEqual(false, isTradingDay);
 
 			isTradingDay = finmath::DTUtils::is_traiding_day(2020, 2, 28);
-			Assert::AreEqual(true, isTradingDay);
+			Assert::AreEqual(true, isTradingDay);*/
 		}
 
 	};

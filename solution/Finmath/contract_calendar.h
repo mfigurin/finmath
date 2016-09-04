@@ -13,12 +13,6 @@ namespace finmath {
 			return (y + y / 4 - y / 100 + y / 400 + t[m - 1] + d) % 7;
 		}
 
-		//TODO check holidays
-		static bool DTUtils::is_traiding_day(int year, int month, int day) { 
-			int daynum = DTUtils::day_of_week(year, month, day);
-			return (daynum > 0 && daynum < 6);
-		}
-
 		static void DTUtils::get_local_time(tm * date) { 
 			__time64_t long_time;
 			_time64(&long_time);
@@ -74,10 +68,15 @@ namespace finmath {
 		CalendarMode get_calendar_mode();
 		double get_contract_deltaT(void); 
 		CalendarItemList get_calendar_items();
+		// This function prints the ContarctCalendar instance properties.
+		// Use the following statement to print the properties to console:
+		//    std::cout << cakendar 
+		//
+		friend std::ostream& operator<<(std::ostream&, const ContractCalendar&); 
+		bool is_traiding_day(tm * time);
+
 
 	private:
-		bool is_holiday(int year, int month, int day);
-		bool is_traiding_day(int year, int month, int day);
 		int get_traiding_days_number();
 		int get_calendar_days_number();
 		void init_traiding_days_list(CalendarMode mode);
@@ -85,11 +84,11 @@ namespace finmath {
 		int calendar_days_number_;
 		int traiding_days_number_;
 		CalendarMode mode_;
-		double contract_deltaT;
+		double contract_deltaT_;
 		//this is tm type info about contract time span  
 		struct tm start_time_;
 		struct tm end_time_;
 		static const int DAY_INCREMENT = 24 * 60 * 60;
-		std::list<CalendarItem*> list;
+		std::list<CalendarItem*> list_;
 	};
 }
