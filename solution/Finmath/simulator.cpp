@@ -139,13 +139,13 @@ namespace finmath {
 	// the interim simulation process status and the generated prices to the user
 	double Simulator::equity_amount_sample(int* performed_steps_count, bool store_data){
 
-		CalendarItems steps = calendar_.get_calendar_items();
+		CalendarItemList steps = calendar_.get_calendar_items();
 
 		bool knocked_in = false;
 		bool knocked_in_processed = false;
 		double lps;
 		int i = 0;
-		for (std::list<TimePeriodItem*>::iterator it = steps.begin(); it != steps.end() && !knocked_in_processed; ++it, i++){		
+		for (std::list<CalendarItem*>::iterator it = steps.begin(); it != steps.end() && !knocked_in_processed; ++it, i++){		
 			double time = (*it)->deltaT;
 
 			// jump to final date if the knock-in event has happened

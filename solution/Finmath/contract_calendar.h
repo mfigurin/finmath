@@ -47,16 +47,16 @@ namespace finmath {
 		CALENDAR_DAYS = 2
 	};
 
-	class TimePeriodItem
+	class CalendarItem
 	{
 	public:
-		TimePeriodItem(int contract_day_number, int traiding_day_number, tm time, double delta ) {
+		CalendarItem(int contract_day_number, int traiding_day_number, tm time, double delta ) {
 			contract_day_number_ = contract_day_number;
 			traiding_day_number_ = traiding_day_number;
 			time_ = time;
 			deltaT = delta;
 		};
-		~TimePeriodItem();
+		~CalendarItem();
 
 		int contract_day_number_ ;
 		int traiding_day_number_ ;
@@ -65,7 +65,7 @@ namespace finmath {
 
 	};
 
-	typedef std::list<TimePeriodItem*> CalendarItems;
+	typedef std::list<CalendarItem*> CalendarItemList;
 
 	class ContractCalendar 
 	{
@@ -73,7 +73,7 @@ namespace finmath {
 		ContractCalendar(CalendarMode mode, tm start_time, tm end_time);
 		CalendarMode get_calendar_mode();
 		double get_contract_deltaT(void); 
-		CalendarItems get_calendar_items();
+		CalendarItemList get_calendar_items();
 
 	private:
 		bool is_holiday(int year, int month, int day);
@@ -90,6 +90,6 @@ namespace finmath {
 		struct tm start_time_;
 		struct tm end_time_;
 		static const int DAY_INCREMENT = 24 * 60 * 60;
-		std::list<TimePeriodItem*> list;
+		std::list<CalendarItem*> list;
 	};
 }
