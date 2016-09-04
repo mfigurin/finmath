@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <time.h>
 #include <fstream>
 
 #include "contract_calendar.h"
@@ -13,9 +14,10 @@ namespace finmath {
 	}
 
 	void ContractCalendar::init_trading_days_list(CalendarMode mode) {
-		__time64_t current, endtime;
-		DTUtils::tm_to_long(&start_time_, &current);
-		DTUtils::tm_to_long(&end_time_, &endtime);
+
+		time_t current = mktime(&start_time_);
+		time_t endtime = mktime(&end_time_);
+
 		tm next_day;
 
 		double calendar_year_days = 365;

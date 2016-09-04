@@ -35,8 +35,8 @@ namespace FinmathUnitTest
 
 			tm trade_date;
 			tm final_date;
-			finmath::DTUtils::set_tm_fields(&trade_date, 2017, 1, 25);
-			finmath::DTUtils::set_tm_fields(&final_date, 2018, 1, 24);
+			finmath::set_tm_fields(&trade_date, 2017, 1, 25);
+			finmath::set_tm_fields(&final_date, 2018, 1, 24);
 
 			finmath::ContractCalendar calendar(finmath::CalendarMode::CALENDAR_DAYS, trade_date, final_date);
 			CorrelationGenerator correlation_generator(matrix, ZeroGenerator());

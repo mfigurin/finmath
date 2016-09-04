@@ -4,33 +4,17 @@
 #include <ctime>
 
 namespace finmath {
-	class DTUtils
-	{
-	public:
-
-		static void DTUtils::get_local_time(tm * date) { 
-			__time64_t long_time;
-			_time64(&long_time);
-			_localtime64_s(date, &long_time);
-		}
-
-		static void DTUtils::set_tm_fields(tm * date, int year, int month, int day, int hour = 0, int min = 0, int sec = 0 ) {
-			date->tm_year = year - 1900;
-			date->tm_mon = month - 1;
-			date->tm_mday = day;
-			date->tm_hour = hour;
-			date->tm_min = min;
-			date->tm_sec = sec;
-		}
-
-		static void DTUtils::tm_to_long(tm * tmDate, __time64_t * time) {
-			*time = _mktime64(tmDate);
-			if (*time == -1) 			{
-				throw std::exception("Unable to make time using mktime");
-			}
-		}
-	};
-
+	
+	//Fills the tm structure 
+	inline void set_tm_fields(tm * date, int year, int month, int day, int hour = 0, int min = 0, int sec = 0 ) {
+		date->tm_year = year - 1900;
+		date->tm_mon = month - 1;
+		date->tm_mday = day;
+		date->tm_hour = hour;
+		date->tm_min = min;
+		date->tm_sec = sec;
+	}
+	
 	// Defines the mode for the simulation time delta calculation : n/252 or n/365
 	enum CalendarMode {
 		TRADING_DAYS = 1,
