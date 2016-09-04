@@ -45,7 +45,7 @@ namespace FinmathUnitTest
 			Simulator sim(calendar, notional_amount, 0.03, basket, 0.72, correlation_generator);
 			sim.set_sample_count(10);
    		    double equity_amount = sim.simulate_equity_amount();
-			Assert::AreEqual(equity_amount, notional_amount * std::max(exp(drift - volatility*volatility/2.0) - 1.0, 0.0));
+			Assert::AreEqual(notional_amount * std::max(exp(drift - volatility*volatility/2.0) - 1.0, 0.0), equity_amount);
 
 			std::cout << "equity_amount: " << equity_amount;
 		}
