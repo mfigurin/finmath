@@ -1,5 +1,5 @@
-
 #include "stdafx.h"
+#include <iostream>
 #include "simulator.h"
 
 using namespace finmath;
@@ -40,4 +40,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::cout << "\n*** Simulation started ***\n\n";
 	std::cout << "\nPresent value: " << sim.simulate_present_value() << std::endl;	
 	std::cout << "\n*** Simulation finished ***\n";
+	std::cout << "*** Press ENTER to exit ***\n";	
+	std::string enter;
+	std::getline(std::cin, enter);
 }
