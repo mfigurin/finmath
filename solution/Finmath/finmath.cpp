@@ -37,10 +37,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	//sim.jump_to_final_date(false);
 	std::cout << "\n*** Simulation settings ***\n\n";
 	std::cout << sim;
+
+	std::cout << "\n\n*** Press ENTER to start simulation ***\n\n";
+	std::string enter;
+	std::getline(std::cin, enter);
+
 	std::cout << "\n*** Simulation started ***\n\n";
 	std::cout << "\nPresent value: " << sim.simulate_present_value() << std::endl;	
 	std::cout << "\n*** Simulation finished ***\n";
 	std::cout << "*** Press ENTER to exit ***\n";	
-	std::string enter;
+
 	std::getline(std::cin, enter);
 }

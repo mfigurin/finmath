@@ -261,6 +261,8 @@ namespace finmath {
 		for( unsigned int i = 0; i < sim.basket_.size(); i++){
 			strm << '\t' << sim.basket_[i] << std::endl;
 		}
+		strm << "\nIteration count:" << sim.sample_count_;
+
 		return strm;
 	}
 }
