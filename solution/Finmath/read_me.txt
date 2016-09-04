@@ -30,5 +30,4 @@ contract_calendar.h / contract_calendar.cpp
 		ContractCalendar - represents contract dates and implements date iteration logic
 		CalendarItemList - represents the iterable list of trading days
 		CalendarItem - represents one trading day
-		ContractMode - specifies what kind of date iteration logic the ContractCalendar should use (iterate over each calendar day, or skip weekends)
-		DTUtils - implements date manupulation utility functions
+		ContractMode - specifies what kind of date iteration logic the ContractCalendar should use (iterate over each calendar day, or skip weekends)	

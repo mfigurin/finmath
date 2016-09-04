@@ -8,8 +8,9 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	tm trade_date;
 	tm final_date;
-	DTUtils::set_tm_fields(&trade_date, 2016, 1, 25);
-	DTUtils::set_tm_fields(&final_date, 2019, 1, 25);
+
+	set_tm_fields(&trade_date, 2016, 1, 25);
+	set_tm_fields(&final_date, 2019, 1, 25);
 	ContractCalendar calendar(CalendarMode::CALENDAR_DAYS, trade_date, final_date);
 
 	double notional_amount = 400.00;
@@ -34,7 +35,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	//sim.save_iteration_data(0, "data.csv");
 	//sim.check_knock_in_event(false);
 	//sim.jump_to_final_date(false);
-	
 	std::cout << "\n*** Simulation settings ***\n\n";
 	std::cout << sim;
 	std::cout << "\n*** Simulation started ***\n\n";

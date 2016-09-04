@@ -207,7 +207,9 @@ namespace finmath {
 	}
 
 	double Simulator::simulate_present_value(void){
-		return simulate_equity_amount()  / pow (( 1 + short_interest_rate_), number_of_periods());
+		//return simulate_equity_amount()  / pow (( 1 + short_interest_rate_), number_of_periods());
+		//case of continuous compound interest: 
+		return simulate_equity_amount()  / exp (short_interest_rate_* number_of_periods());
 	}
 
 	void Simulator::save_iteration_data(int index, std::string file_name){
