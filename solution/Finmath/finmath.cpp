@@ -30,7 +30,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	Simulator sim(calendar, notional_amount, short_interest_rate, basket, knock_in_event_percentage, correlationGenerator);
 
-	sim.set_sample_count(100);
+	//sim.set_sample_count(100);
 	//sim.suppress_payments(true, false);
 	//sim.save_iteration_data(0, "data.csv");
 	//sim.check_knock_in_event(false);
